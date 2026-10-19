@@ -86,47 +86,19 @@
       box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), inset 0 -1px 2px rgba(0, 0, 0, 0.3);
     }
 
-    /* Background fluid mesh */
+    /* Background seamless Apple fluid mesh (NO separate balls/circles) */
     .aurora-canvas {
       position: absolute;
-      inset: -40px;
-      filter: blur(var(--bg-blur, 50px)) saturate(var(--bg-sat, 135%)) brightness(var(--bg-bright, 100%));
-      -webkit-filter: blur(var(--bg-blur, 50px)) saturate(var(--bg-sat, 135%)) brightness(var(--bg-bright, 100%));
-      background: #565d82;
-    }
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-    }
-    .blob-tomori {
-      width: 280px; height: 280px;
-      background: var(--c-tomori, #5BB0DC);
-      top: 0; left: 0;
-      opacity: 0.95;
-    }
-    .blob-anon {
-      width: 270px; height: 270px;
-      background: var(--c-anon, #FF7C92);
-      top: 0; right: 0;
-      opacity: 0.95;
-    }
-    .blob-soyo {
-      width: 300px; height: 240px;
-      background: var(--c-soyo, #F8C666);
-      top: 25%; left: 18%;
-      opacity: 0.90;
-    }
-    .blob-raana {
-      width: 270px; height: 270px;
-      background: var(--c-raana, #60D465);
-      bottom: 0; left: 0;
-      opacity: 0.95;
-    }
-    .blob-taki {
-      width: 290px; height: 290px;
-      background: var(--c-taki, #6964A8);
-      bottom: 0; right: 0;
-      opacity: 0.95;
+      inset: -20px;
+      background: 
+        radial-gradient(circle at 18% 20%, var(--c-tomori, #5BB0DC) 0%, transparent 65%),
+        radial-gradient(circle at 82% 18%, var(--c-anon, #FF7C92) 0%, transparent 65%),
+        radial-gradient(ellipse at 50% 50%, var(--c-soyo, #F8C666) 0%, transparent 55%),
+        radial-gradient(circle at 18% 82%, var(--c-raana, #60D465) 0%, transparent 65%),
+        radial-gradient(circle at 82% 82%, var(--c-taki, #6964A8) 0%, transparent 65%),
+        linear-gradient(var(--bg-angle, 135deg), var(--c-tomori, #5BB0DC) 0%, var(--c-anon, #FF7C92) 32%, var(--c-soyo, #F8C666) 52%, var(--c-raana, #60D465) 75%, var(--c-taki, #6964A8) 100%);
+      filter: blur(var(--bg-blur, 35px)) saturate(var(--bg-sat, 135%)) brightness(var(--bg-bright, 100%));
+      -webkit-filter: blur(var(--bg-blur, 35px)) saturate(var(--bg-sat, 135%)) brightness(var(--bg-bright, 100%));
     }
 
     .squircle-gloss {
@@ -457,14 +429,8 @@
     <!-- The 1024 Squircle Icon Stage -->
     <div class="icon-container" id="icon-box">
       <div class="squircle-frame">
-        <!-- Background MyGO fluid aura -->
-        <div class="aurora-canvas" id="aurora">
-          <div class="blob blob-tomori"></div>
-          <div class="blob blob-anon"></div>
-          <div class="blob blob-soyo"></div>
-          <div class="blob blob-raana"></div>
-          <div class="blob blob-taki"></div>
-        </div>
+        <!-- Background MyGO seamless fluid aura (Zero discrete balls) -->
+        <div class="aurora-canvas" id="aurora"></div>
 
         <!-- Apple Glass Gloss Sheen -->
         <div class="squircle-gloss"></div>
@@ -706,10 +672,18 @@
 
         <div class="control-group">
           <div class="control-label">
-            <span>五色融合扩散度 (Gaussian Blur)</span>
-            <span class="control-val" id="val-bg-blur">50px</span>
+            <span>五色融合扩散度 (Gaussian Diffusion)</span>
+            <span class="control-val" id="val-bg-blur">35px</span>
           </div>
-          <input type="range" id="bg-blur" min="20" max="100" value="50" oninput="updateControls()">
+          <input type="range" id="bg-blur" min="0" max="80" value="35" oninput="updateControls()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>极光流动角度 (Flow Angle)</span>
+            <span class="control-val" id="val-bg-angle">135°</span>
+          </div>
+          <input type="range" id="bg-angle" min="0" max="360" value="135" oninput="updateControls()">
         </div>
       </div>
 
@@ -785,7 +759,8 @@
       noteRot: 0,
       bgBright: 100,
       bgSat: 135,
-      bgBlur: 50,
+      bgBlur: 35,
+      bgAngle: 135,
       colors: {
         tomori: "#5BB0DC",
         anon: "#FF7C92",
@@ -812,7 +787,8 @@
         state.noteRot = getVal("note-rot", 0);
         state.bgBright = getVal("bg-bright", 100);
         state.bgSat = getVal("bg-sat", 135);
-        state.bgBlur = getVal("bg-blur", 50);
+        state.bgBlur = getVal("bg-blur", 35);
+        state.bgAngle = getVal("bg-angle", 135);
 
         setText("val-glass-blur", state.glassBlur + "px");
         setText("val-glass-sat", state.glassSat + "%");
@@ -830,6 +806,7 @@
         setText("val-bg-bright", state.bgBright + "%");
         setText("val-bg-sat", state.bgSat + "%");
         setText("val-bg-blur", state.bgBlur + "px");
+        setText("val-bg-angle", state.bgAngle + "°");
 
         const root = document.documentElement;
         root.style.setProperty("--glass-blur", state.glassBlur + "px");
@@ -848,6 +825,7 @@
         root.style.setProperty("--bg-bright", state.bgBright + "%");
         root.style.setProperty("--bg-sat", state.bgSat + "%");
         root.style.setProperty("--bg-blur", state.bgBlur + "px");
+        root.style.setProperty("--bg-angle", state.bgAngle + "deg");
 
         updateDockThumbs();
       } catch (e) {
@@ -958,30 +936,43 @@
       ctx.roundRect(96, 96, 832, 832, 185);
       ctx.clip();
 
-      // Background
+      // Seamless Apple Mesh Background (Zero separate balls)
       const bgCanvas = document.createElement("canvas");
       bgCanvas.width = 1024;
       bgCanvas.height = 1024;
       const bgCtx = bgCanvas.getContext("2d");
-      bgCtx.fillStyle = "#5A628A";
+
+      // 1. Base linear silk flow with angle
+      const rad = (state.bgAngle * Math.PI) / 180;
+      const x1 = 512 - Math.cos(rad) * 512;
+      const y1 = 512 - Math.sin(rad) * 512;
+      const x2 = 512 + Math.cos(rad) * 512;
+      const y2 = 512 + Math.sin(rad) * 512;
+      const baseGrad = bgCtx.createLinearGradient(x1, y1, x2, y2);
+      baseGrad.addColorStop(0, state.colors.tomori);
+      baseGrad.addColorStop(0.32, state.colors.anon);
+      baseGrad.addColorStop(0.52, state.colors.soyo);
+      baseGrad.addColorStop(0.75, state.colors.raana);
+      baseGrad.addColorStop(1, state.colors.taki);
+      bgCtx.fillStyle = baseGrad;
       bgCtx.fillRect(0, 0, 1024, 1024);
 
-      const drawBlob = (color, cx, cy, radius, opacity) => {
+      // 2. Soft diffused radial harmonics (organic blend, no hard disk edges)
+      const drawSoftRadial = (color, cx, cy, radius, op = 0.95) => {
         const g = bgCtx.createRadialGradient(cx, cy, 0, cx, cy, radius);
         g.addColorStop(0, color);
-        g.addColorStop(1, color + "00");
-        bgCtx.globalAlpha = opacity;
+        g.addColorStop(1, "transparent");
+        bgCtx.globalAlpha = op;
         bgCtx.fillStyle = g;
-        bgCtx.beginPath();
-        bgCtx.arc(cx, cy, radius, 0, Math.PI * 2);
-        bgCtx.fill();
+        bgCtx.fillRect(0, 0, 1024, 1024);
       };
 
-      drawBlob(state.colors.tomori, 260, 270, 360, 0.95);
-      drawBlob(state.colors.anon, 750, 280, 350, 0.95);
-      drawBlob(state.colors.soyo, 512, 520, 340, 0.90);
-      drawBlob(state.colors.raana, 270, 740, 350, 0.95);
-      drawBlob(state.colors.taki, 740, 740, 370, 0.95);
+      drawSoftRadial(state.colors.tomori, 200, 220, 560, 0.95);
+      drawSoftRadial(state.colors.anon, 820, 200, 560, 0.95);
+      drawSoftRadial(state.colors.soyo, 512, 512, 460, 0.88);
+      drawSoftRadial(state.colors.raana, 200, 820, 560, 0.95);
+      drawSoftRadial(state.colors.taki, 820, 820, 560, 0.95);
+      bgCtx.globalAlpha = 1.0;
 
       ctx.filter = `blur(${state.bgBlur * 1.5}px) saturate(${state.bgSat}%) brightness(${state.bgBright}%)`;
       ctx.drawImage(bgCanvas, 0, 0);
