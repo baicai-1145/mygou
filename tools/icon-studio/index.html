@@ -984,14 +984,15 @@
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, 1024, 1024);
 
-      // Squircle
-      ctx.save();
-      ctx.beginPath();
-      ctx.roundRect(96, 96, 832, 832, 185);
-      ctx.clip();
+      const hexToRgba = (hex, alpha) => {
+        let c = hex.replace("#", "");
+        if (c.length === 3) c = c.split("").map(x => x + x).join("");
+        const num = parseInt(c, 16);
+        return `rgba(${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}, ${alpha})`;
+      };
 
-      // Render seamless mesh background function
-      const renderMeshOnCanvas = (targetCtx, w, h, angle) => {
+      // 1. Draw Background on offscreen canvas
+      const renderMesh = (targetCtx, w, h, angle) => {
         const rad = (angle * Math.PI) / 180;
         const x1 = w/2 - Math.cos(rad) * w/2;
         const y1 = h/2 - Math.sin(rad) * h/2;
@@ -1008,64 +1009,80 @@
 
         const drawSoft = (c, cx, cy, r, op = 0.95) => {
           const g = targetCtx.createRadialGradient(cx, cy, 0, cx, cy, r);
-          g.addColorStop(0, c);
-          g.addColorStop(1, "transparent");
-          targetCtx.globalAlpha = op;
+          g.addColorStop(0, hexToRgba(c, op));
+          g.addColorStop(1, hexToRgba(c, 0));
           targetCtx.fillStyle = g;
           targetCtx.fillRect(0, 0, w, h);
         };
-        drawSoft(state.colors.tomori, w * 0.20, h * 0.22, w * 0.55, 0.95);
-        drawSoft(state.colors.anon, w * 0.80, h * 0.20, w * 0.55, 0.95);
-        drawSoft(state.colors.soyo, w * 0.50, h * 0.50, w * 0.45, 0.88);
-        drawSoft(state.colors.raana, w * 0.20, h * 0.80, w * 0.55, 0.95);
-        drawSoft(state.colors.taki, w * 0.80, h * 0.80, w * 0.55, 0.95);
-        targetCtx.globalAlpha = 1.0;
+
+        drawSoft(state.colors.tomori, w * 0.18, h * 0.20, w * 0.60, 0.95);
+        drawSoft(state.colors.anon, w * 0.82, h * 0.18, w * 0.60, 0.95);
+        drawSoft(state.colors.soyo, w * 0.50, h * 0.50, w * 0.55, 0.88);
+        drawSoft(state.colors.raana, w * 0.18, h * 0.82, w * 0.60, 0.95);
+        drawSoft(state.colors.taki, w * 0.82, h * 0.82, w * 0.60, 0.95);
       };
 
-      // 1. Draw Background
       const bgCanvas = document.createElement("canvas");
       bgCanvas.width = 1024;
       bgCanvas.height = 1024;
-      const bgCtx = bgCanvas.getContext("2d");
-      renderMeshOnCanvas(bgCtx, 1024, 1024, state.bgAngle);
+      renderMesh(bgCanvas.getContext("2d"), 1024, 1024, state.bgAngle);
 
-      ctx.filter = `blur(${state.bgBlur * 1.5}px) saturate(${state.bgSat}%) brightness(${state.bgBright}%)`;
+      // 2. Draw Squircle Clip
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(96, 96, 832, 832, 185);
+      ctx.clip();
+
+      // Draw blurred background
+      ctx.filter = `blur(${state.bgBlur * 2.2}px) saturate(${state.bgSat}%) brightness(${state.bgBright}%)`;
       ctx.drawImage(bgCanvas, 0, 0);
       ctx.filter = "none";
 
+      // Squircle top gloss
       const gloss = ctx.createLinearGradient(0, 96, 0, 500);
       gloss.addColorStop(0, "rgba(255, 255, 255, 0.18)");
       gloss.addColorStop(1, "transparent");
       ctx.fillStyle = gloss;
       ctx.fillRect(96, 96, 832, 420);
 
+      // Squircle rim
       ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
       ctx.lineWidth = 3;
       ctx.stroke();
 
-      // 2. Note Setup
-      const notePath = new Path2D("m10.888 2.518-4.756.959H6.13a.66.66 0 0 0-.296.133.5.5 0 0 0-.16.31c-.004.027-.01.08-.01.16v5.952c0 .14-.012.275-.106.39-.095.115-.21.15-.347.177l-.31.063c-.393.08-.65.133-.881.223a1.4 1.4 0 0 0-.519.333 1.25 1.25 0 0 0-.332.995c.031.297.166.582.395.792.156.142.35.25.578.296.236.047.49.031.858-.043.196-.04.38-.102.555-.205a1.4 1.4 0 0 0 .438-.405 1.5 1.5 0 0 0 .233-.55c.042-.202.052-.386.052-.588V6.347c0-.276.08-.35.302-.404.024-.005 3.954-.797 4.138-.833.257-.049.378.025.378.294v3.524c0 .14-.001.28-.096.396-.094.115-.211.15-.348.178l-.31.062c-.393.08-.649.133-.88.223a1.4 1.4 0 0 0-.52.334 1.26 1.26 0 0 0-.34.994c.03.297.174.582.404.792a1.2 1.2 0 0 0 .577.294c.237.048.49.03.858-.044.197-.04.381-.098.556-.202a1.4 1.4 0 0 0 .438-.405q.173-.252.233-.549a2.7 2.7 0 0 0 .044-.589V2.865c0-.273-.143-.443-.4-.42-.04.003-.383.064-.424.073");
+      // 3. Prepare Refracted Background for Note
+      const refCanvas = document.createElement("canvas");
+      refCanvas.width = 1024;
+      refCanvas.height = 1024;
+      const refCtx = refCanvas.getContext("2d");
+      refCtx.translate(512, 512);
+      refCtx.scale(state.glassRefract / 100, state.glassRefract / 100);
+      refCtx.rotate((-3 * Math.PI) / 180);
+      refCtx.translate(-512, -512);
+      refCtx.filter = `blur(${state.glassBlur * 2.2}px) saturate(${state.glassSat}%) brightness(${state.glassBright}%)`;
+      refCtx.drawImage(bgCanvas, 0, 0);
 
-      ctx.save();
-      // Drop Shadow
-      ctx.shadowColor = `rgba(10, 16, 32, ${state.shOp / 100})`;
-      ctx.shadowBlur = state.shBlur * 1.5;
-      ctx.shadowOffsetY = state.shDist * 1.5;
+      // 4. Render Note with Drop Shadow & Refraction
+      const notePath = new Path2D("m10.888 2.518-4.756.959H6.13a.66.66 0 0 0-.296.133.5.5 0 0 0-.16.31c-.004.027-.01.08-.01.16v5.952c0 .14-.012.275-.106.39-.095.115-.21.15-.347.177l-.31.063c-.393.08-.65.133-.881.223a1.4 1.4 0 0 0-.519.333 1.25 1.25 0 0 0-.332.995c.031.297.166.582.395.792.156.142.35.25.578.296.236.047.49.031.858-.043.196-.04.38-.102.555-.205a1.4 1.4 0 0 0 .438-.405 1.5 1.5 0 0 0 .233-.55c.042-.202.052-.386.052-.588V6.347c0-.276.08-.35.302-.404.024-.005 3.954-.797 4.138-.833.257-.049.378.025.378.294v3.524c0 .14-.001.28-.096.396-.094.115-.211.15-.348.178l-.31.062c-.393.08-.649.133-.88.223a1.4 1.4 0 0 0-.52.334 1.26 1.26 0 0 0-.34.994c.03.297.174.582.404.792a1.2 1.2 0 0 0 .577.294c.237.048.49.03.858-.044.197-.04.381-.098.556-.202a1.4 1.4 0 0 0 .438-.405q.173-.252.233-.549a2.7 2.7 0 0 0 .044-.589V2.865c0-.273-.143-.443-.4-.42-.04.003-.383.064-.424.073");
 
       const s = 52 * (state.noteScale / 100);
       const pxX = state.noteX * 2.7;
       const pxY = state.noteY * 2.7;
+
+      // A. Drop Shadow
+      ctx.save();
+      ctx.shadowColor = `rgba(10, 16, 32, ${state.shOp / 100})`;
+      ctx.shadowBlur = state.shBlur * 2.2;
+      ctx.shadowOffsetY = state.shDist * 2.2;
       ctx.translate(512 + pxX, 512 + pxY);
       if (state.noteRot) ctx.rotate((state.noteRot * Math.PI) / 180);
       ctx.scale(s, s);
       ctx.translate(-8 + 0.57, -8 + 0.12);
-
-      // Draw shadow base
-      ctx.fillStyle = "rgba(0, 0, 0, 0.01)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
       ctx.fill(notePath, "evenodd");
       ctx.restore();
 
-      // Clip note path to render internal refracted optical mesh
+      // B. Refracted Interior Clip
       ctx.save();
       ctx.translate(512 + pxX, 512 + pxY);
       if (state.noteRot) ctx.rotate((state.noteRot * Math.PI) / 180);
@@ -1073,52 +1090,41 @@
       ctx.translate(-8 + 0.57, -8 + 0.12);
       ctx.clip(notePath, "evenodd");
 
-      // Render refracted background inside note
+      // Draw refracted background
       ctx.save();
       ctx.translate(8 - 0.57, 8 - 0.12);
       ctx.scale(1/s, 1/s);
       ctx.translate(-512 - pxX, -512 - pxY);
-      
-      // Optical magnification transform
-      ctx.translate(512, 512);
-      ctx.scale(state.glassRefract / 100, state.glassRefract / 100);
-      ctx.rotate((-4 * Math.PI) / 180);
-      ctx.translate(-512, -512);
-
-      ctx.filter = `blur(${state.glassBlur * 1.5}px) saturate(${state.glassSat}%) brightness(${state.glassBright}%)`;
-      ctx.drawImage(bgCanvas, 0, 0);
-      ctx.filter = "none";
+      ctx.drawImage(refCanvas, 0, 0);
       ctx.restore();
 
-      // Surface crystal glaze sheen
+      // Surface Crystal Glaze Sheen
       const glassGrad = ctx.createLinearGradient(0, 2, 0, 14);
       glassGrad.addColorStop(0, `rgba(255, 255, 255, ${state.glassTop / 100})`);
       glassGrad.addColorStop(0.5, `rgba(255, 255, 255, ${state.glassMid / 100})`);
       glassGrad.addColorStop(1, `rgba(235, 243, 255, ${state.glassBot / 100})`);
       ctx.fillStyle = glassGrad;
       ctx.fill(notePath, "evenodd");
-
       ctx.restore();
 
-      // Laser Chamfer Bevel Stroke
+      // C. Laser Chamfer Bevel Highlight
       ctx.save();
       ctx.translate(512 + pxX, 512 + pxY);
       if (state.noteRot) ctx.rotate((state.noteRot * Math.PI) / 180);
       ctx.scale(s, s);
       ctx.translate(-8 + 0.57, -8 + 0.12);
-
       const bevelGrad = ctx.createLinearGradient(0, 2, 16, 16);
       bevelGrad.addColorStop(0, "rgba(255, 255, 255, 1.0)");
       bevelGrad.addColorStop(0.4, "rgba(255, 255, 255, 0.85)");
-      bevelGrad.addColorStop(0.7, "rgba(255, 255, 255, 0.35)");
+      bevelGrad.addColorStop(0.7, "rgba(255, 255, 255, 0.30)");
       bevelGrad.addColorStop(1, "rgba(255, 255, 255, 0.75)");
       ctx.strokeStyle = bevelGrad;
-      ctx.lineWidth = 0.16;
+      ctx.lineWidth = 0.08; // Delicate micro-chamfer stroke matching screen
       ctx.lineJoin = "round";
       ctx.stroke(notePath);
+      ctx.restore();
 
-      ctx.restore();
-      ctx.restore();
+      ctx.restore(); // Squircle clip
 
       const link = document.createElement("a");
       link.download = "mygou-icon-1024.png";
