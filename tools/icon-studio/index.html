@@ -7,7 +7,7 @@
   <style>
     :root {
       --bg: #0d0f15;
-      --card-bg: rgba(22, 26, 38, 0.75);
+      --card-bg: rgba(22, 26, 38, 0.85);
       --card-border: rgba(255, 255, 255, 0.1);
       --accent: #58a6ff;
       --text: #f0f3f6;
@@ -80,7 +80,7 @@
     .squircle-frame {
       width: 100%;
       height: 100%;
-      border-radius: 84px; /* macOS squircle curvature approximation */
+      border-radius: 84px;
       position: relative;
       overflow: hidden;
       box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), inset 0 -1px 2px rgba(0, 0, 0, 0.3);
@@ -93,42 +93,40 @@
       filter: blur(var(--bg-blur, 50px)) saturate(var(--bg-sat, 135%)) brightness(var(--bg-bright, 100%));
       -webkit-filter: blur(var(--bg-blur, 50px)) saturate(var(--bg-sat, 135%)) brightness(var(--bg-bright, 100%));
       background: #565d82;
-      transition: filter 0.1s ease;
     }
     .blob {
       position: absolute;
       border-radius: 50%;
-      mix-blend-mode: normal;
     }
     .blob-tomori {
       width: 280px; height: 280px;
       background: var(--c-tomori, #5BB0DC);
       top: 0; left: 0;
-      opacity: var(--op-tomori, 0.95);
+      opacity: 0.95;
     }
     .blob-anon {
       width: 270px; height: 270px;
       background: var(--c-anon, #FF7C92);
       top: 0; right: 0;
-      opacity: var(--op-anon, 0.95);
+      opacity: 0.95;
     }
     .blob-soyo {
       width: 300px; height: 240px;
       background: var(--c-soyo, #F8C666);
       top: 25%; left: 18%;
-      opacity: var(--op-soyo, 0.90);
+      opacity: 0.90;
     }
     .blob-raana {
       width: 270px; height: 270px;
       background: var(--c-raana, #60D465);
       bottom: 0; left: 0;
-      opacity: var(--op-raana, 0.95);
+      opacity: 0.95;
     }
     .blob-taki {
       width: 290px; height: 290px;
       background: var(--c-taki, #6964A8);
       bottom: 0; right: 0;
-      opacity: var(--op-taki, 0.95);
+      opacity: 0.95;
     }
 
     .squircle-gloss {
@@ -150,31 +148,22 @@
       position: absolute;
       top: 50%;
       left: 50%;
+      width: 100%;
+      height: 100%;
       transform: translate(calc(-50% + var(--note-x, 0px)), calc(-50% + var(--note-y, 0px))) 
                  scale(var(--note-scale, 1)) 
                  rotate(var(--note-rot, 0deg));
-      width: 100%;
-      height: 100%;
       filter: drop-shadow(0 var(--sh-dist, 16px) var(--sh-blur, 18px) rgba(10, 16, 32, var(--sh-op, 0.35)));
       user-select: none;
-      transition: filter 0.1s;
+      pointer-events: none;
     }
+
     .glass-note-body {
       width: 100%;
       height: 100%;
-      /* 100% mathematically centered Apple Music Note (0.57px, 0.12px optical center calibration) */
-      -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g transform="translate(0.57, 0.12)"><path fill="black" fill-rule="evenodd" d="m10.888 2.518-4.756.959H6.13a.66.66 0 0 0-.296.133.5.5 0 0 0-.16.31c-.004.027-.01.08-.01.16v5.952c0 .14-.012.275-.106.39-.095.115-.21.15-.347.177l-.31.063c-.393.08-.65.133-.881.223a1.4 1.4 0 0 0-.519.333 1.25 1.25 0 0 0-.332.995c.031.297.166.582.395.792.156.142.35.25.578.296.236.047.49.031.858-.043.196-.04.38-.102.555-.205a1.4 1.4 0 0 0 .438-.405 1.5 1.5 0 0 0 .233-.55c.042-.202.052-.386.052-.588V6.347c0-.276.08-.35.302-.404.024-.005 3.954-.797 4.138-.833.257-.049.378.025.378.294v3.524c0 .14-.001.28-.096.396-.094.115-.211.15-.348.178l-.31.062c-.393.08-.649.133-.88.223a1.4 1.4 0 0 0-.52.334 1.26 1.26 0 0 0-.34.994c.03.297.174.582.404.792a1.2 1.2 0 0 0 .577.294c.237.048.49.03.858-.044.197-.04.381-.098.556-.202a1.4 1.4 0 0 0 .438-.405q.173-.252.233-.549a2.7 2.7 0 0 0 .044-.589V2.865c0-.273-.143-.443-.4-.42-.04.003-.383.064-.424.073"/></g></svg>') no-repeat center / contain;
-      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g transform="translate(0.57, 0.12)"><path fill="black" fill-rule="evenodd" d="m10.888 2.518-4.756.959H6.13a.66.66 0 0 0-.296.133.5.5 0 0 0-.16.31c-.004.027-.01.08-.01.16v5.952c0 .14-.012.275-.106.39-.095.115-.21.15-.347.177l-.31.063c-.393.08-.65.133-.881.223a1.4 1.4 0 0 0-.519.333 1.25 1.25 0 0 0-.332.995c.031.297.166.582.395.792.156.142.35.25.578.296.236.047.49.031.858-.043.196-.04.38-.102.555-.205a1.4 1.4 0 0 0 .438-.405 1.5 1.5 0 0 0 .233-.55c.042-.202.052-.386.052-.588V6.347c0-.276.08-.35.302-.404.024-.005 3.954-.797 4.138-.833.257-.049.378.025.378.294v3.524c0 .14-.001.28-.096.396-.094.115-.211.15-.348.178l-.31.062c-.393.08-.649.133-.88.223a1.4 1.4 0 0 0-.52.334 1.26 1.26 0 0 0-.34.994c.03.297.174.582.404.792a1.2 1.2 0 0 0 .577.294c.237.048.49.03.858-.044.197-.04.381-.098.556-.202a1.4 1.4 0 0 0 .438-.405q.173-.252.233-.549a2.7 2.7 0 0 0 .044-.589V2.865c0-.273-.143-.443-.4-.42-.04.003-.383.064-.424.073"/></g></svg>') no-repeat center / contain;
-      
-      /* GENUINE NATIVE MACOS HARDWARE-ACCELERATED LIQUID GLASS */
-      background: linear-gradient(135deg, 
-        rgba(255, 255, 255, var(--glass-top-op, 0.82)) 0%, 
-        rgba(255, 255, 255, var(--glass-mid-op, 0.60)) 50%,
-        rgba(235, 243, 255, var(--glass-bot-op, 0.72)) 100%
-      );
-      backdrop-filter: blur(var(--glass-blur, 18px)) saturate(var(--glass-sat, 150%)) brightness(var(--glass-bright, 105%));
-      -webkit-backdrop-filter: blur(var(--glass-blur, 18px)) saturate(var(--glass-sat, 150%)) brightness(var(--glass-bright, 105%));
-    }
+      /* 100% mathematically centered Base64 SVG Note Mask (dx=0.57, dy=0.12) */
+      -webkit-mask: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41NywgMC4xMikiPjxwYXRoIGZpbGw9ImJsYWNrIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Im0xMC44ODggMi41MTgtNC43NTYuOTU5SDYuMTNhLjY2LjY2IDAgMCAwLS4yOTYuMTMzLjUuNSAwIDAgMC0uMTYuMzFjLS4wMDQuMDI3LS4wMS4wOC0uMDEuMTZ2NS45NTJjMCAuMTQtLjAxMi4yNzUtLjEwNi4zOS0uMDk1LjExNS0uMjEuMTUtLjM0Ny4xNzdsLS4zMS4wNjNjLS4zOTMuMDgtLjY1LjEzMy0uODgxLjIyM2ExLjQgMS40IDAgMCAwLS41MTkuMzMzIDEuMjUgMS4yNSAwIDAgMC0uMzMyLjk5NWMuMDMxLjI5Ny4xNjYuNTgyLjM5NS43OTIuMTU2LjE0Mi4zNS4yNS41NzguMjk2LjIzNi4wNDcuNDkuMDMxLjg1OC0uMDQzLjE5Ni0uMDQuMzgtLjEwMi41NTUtLjIwNWExLjQgMS40IDAgMCAwIC40MzgtLjQwNSAxLjUgMS41IDAgMCAwIC4yMzMtLjU1Yy4wNDItLjIwMi4wNTItLjM4Ni4wNTItLjU4OFY2LjM0N2MwLS4yNzYuMDgtLjM1LjMwMi0uNDA0LjAyNC0uMDA1IDMuOTU0LS43OTcgNC4xMzgtLjgzMy4yNTctLjA0OS4zNzguMDI1LjM3OC4yOTR2My41MjRjMCAuMTQtLjAwMS4yOC0uMDk2LjM5Ni0uMDk0LjExNS0uMjExLjE1LS4zNDguMTc4bC0uMzEuMDYyYy0uMzkzLjA4LS42NDkuMTMzLS44OC4yMjNhMS40IDEuNCAwIDAgMC0uNTIuMzM0IDEuMjYgMS4yNiAwIDAgMC0uMzQuOTk0Yy4wMy4yOTcuMTc0LjU4Mi40MDQuNzkyYTEuMiAxLjIgMCAwIDAgLjU3Ny4yOTRjLjIzNy4wNDguNDkuMDMuODU4LS4wNDQuMTk3LS4wNC4zODEtLjA5OC41NTYtLjIwMmExLjQgMS40IDAgMCAwIC40MzgtLjQwNXEuMTczLS4yNTIuMjMzLS41NDlhMi43IDIuNyAwIDAgMCAuMDQ0LS41ODlWMi44NjVjMC0uMjczLS4xNDMtLjQ0My0uNC0uNDItLjA0LjAwMy0uMzgzLjA2NC0uNDI0LjA3MyIvPjwvZz48L3N2Zz4=') no-repeat center / contain;
+      mask: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41NywgMC4xMikiPjxwYXRoIGZpbGw9ImJsYWNrIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Im0xMC44ODggMi41MTgtNC43NTYuOTU5SDYuMTNhLjY2LjY2IDAgMCAwLS4yOTYuMTMzLjUuNSAwIDAgMC0uMTYuMzFjLS4wMDQuMDI3LS4wMS4wOC0uMDEuMTZ2NS45NTJjMCAuMTQtLjAxMi4yNzUtLjEwNi4zOS0uMDk1LjExNS0uMjEuMTUtLjM0Ny4xNzdsLS4zMS4wNjNjLS4zOTMuMDgtLjY1LjEzMy0uODgxLjIyM2ExLjQgMS40IDAgMCAwLS41MTkuMzMzIDEuMjUgMS4yNSAwIDAgMC0uMzMyLjk5NWMuMDMxLjI5Ny4xNjYuNTgyLjM5NS43OTIuMTU2LjE0Mi4zNS4yNS41NzguMjk2LjIzNi4wNDcuNDkuMDMxLjg1OC0uMDQzLjE5Ni0uMDQuMzgtLjEwMi41NTUtLjIwNWExLjQgMS40IDAgMCAwIC40MzgtLjQwNSAxLjUgMS41IDAgMCAwIC4yMzMtLjU1Yy4wNDItLjIwMi4wNTItLjM4Ni4wNTItLjU4OFY2LjM0N2MwLS4yNzYuMDgtLjM1LjMwMi0uNDA0LjAyNC0uMDA1IDMuOTU0LS43OTcgNC4xMzgtLjgzMy4yNTctLjA0OS4zNzguMDI1LjM3OC4yOTR2My41MjRjMCAuMTQtLjAwMS4yOC0uMDk2LjM5Ni0uMDk0LjExNS0uMjExLjE1LS4zNDguMTc4bC0uMzEuMDYyYy0uMzkzLjA4LS42NDkuMTMzLS44OC4yMjNhMS40IDEuNCAwIDAgMC0uNTIuMzM0IDEuMjYgMS4yNiAwIDAgMC0uMzQuOTk0Yy4wMy4yOTcuMTc0LjU4Mi40MDQuNzkyYTEuMiAxLjIgMCAwIDAgLjU3Ny4yOTRjLjIzNy4wNDguNDkuMDMuODU4LS4wNDQuMTk3LS4wNC4zODEtLjA5OC41NTYtLjIwMmExLjQgMS40IDAgMCAwIC40MzgtLjQwNXEuMTczLS4yNTIuMjMzLS41NDlhMi43IDIuNyAwIDAgMCAuMDQ0LS41ODlWMi44NjVjMC0uMjczLS4xNDMtLjQ0My0uNC0uNDItLjA0LjAwMy0uMzgzLjA2NC0uNDI0LjA3MyIvPjwvZz48L3N2Zz4=') no-repeat center / contain;
       
       /* GENUINE NATIVE MACOS HARDWARE-ACCELERATED LIQUID GLASS */
       background: linear-gradient(135deg, 
@@ -447,7 +436,6 @@
       background: rgba(255, 255, 255, 0.14);
     }
 
-    /* Hidden full-res 1024 render canvas */
     #export-canvas {
       display: none;
     }
@@ -460,10 +448,10 @@
     
     <!-- Environment switcher -->
     <div class="env-picker">
-      <button class="env-btn active" onclick="setEnv('dark')">深色桌面</button>
-      <button class="env-btn" onclick="setEnv('light')">浅色桌面</button>
-      <button class="env-btn" onclick="setEnv('wallpaper')">Sonoma 壁纸</button>
-      <button class="env-btn" onclick="setEnv('checker')">棋盘透明</button>
+      <button class="env-btn active" onclick="setEnv('dark', event)">深色桌面</button>
+      <button class="env-btn" onclick="setEnv('light', event)">浅色桌面</button>
+      <button class="env-btn" onclick="setEnv('wallpaper', event)">Sonoma 壁纸</button>
+      <button class="env-btn" onclick="setEnv('checker', event)">棋盘透明</button>
     </div>
 
     <!-- The 1024 Squircle Icon Stage -->
@@ -482,7 +470,7 @@
         <div class="squircle-gloss"></div>
         <div class="squircle-border"></div>
 
-        <!-- Real WebKit Liquid Glass Note with Apple Music SVG Mask -->
+        <!-- Real WebKit Liquid Glass Note -->
         <div class="glass-note-wrapper" id="glass-note">
           <div class="glass-note-body"></div>
           
@@ -536,9 +524,9 @@
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('glass')">🎵 液态玻璃</button>
-      <button class="tab-btn" onclick="switchTab('aurora')">🌈 五色流光</button>
-      <button class="tab-btn" onclick="switchTab('presets')">✨ 精选预设</button>
+      <button class="tab-btn active" onclick="switchTab('glass', event)">🎵 液态玻璃</button>
+      <button class="tab-btn" onclick="switchTab('aurora', event)">🌈 五色流光</button>
+      <button class="tab-btn" onclick="switchTab('presets', event)">✨ 精选预设</button>
     </div>
 
     <div class="panel-body">
@@ -613,6 +601,16 @@
           </div>
           <input type="range" id="sh-dist" min="2" max="30" value="14" oninput="updateControls()">
         </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>投影浓度 (Shadow Opacity)</span>
+            <span class="control-val" id="val-sh-op">35%</span>
+          </div>
+          <input type="range" id="sh-op" min="10" max="70" value="35" oninput="updateControls()">
+        </div>
+
+        <div class="section-title">音符形变与位置校准 (Geometry & Placement)</div>
 
         <div class="control-group">
           <div class="control-label">
@@ -758,11 +756,19 @@
     </div>
   </div>
 
-  <!-- Offscreen 1024x1024 Canvas for pristine PNG baking -->
   <canvas id="export-canvas" width="1024" height="1024"></canvas>
 
   <script>
-    // State
+    // Safe DOM getters
+    const getVal = (id, def = 0) => {
+      const el = document.getElementById(id);
+      return el ? Number(el.value) : def;
+    };
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.innerText = text;
+    };
+
     const state = {
       glassBlur: 18,
       glassSat: 150,
@@ -790,81 +796,84 @@
     };
 
     function updateControls() {
-      state.glassBlur = Number(document.getElementById("glass-blur").value);
-      state.glassSat = Number(document.getElementById("glass-sat").value);
-      state.glassBright = Number(document.getElementById("glass-bright").value);
-      state.glassTop = Number(document.getElementById("glass-top").value);
-      state.glassMid = Number(document.getElementById("glass-mid").value);
-      state.glassBot = Number(document.getElementById("glass-bot").value);
-      state.shBlur = Number(document.getElementById("sh-blur").value);
-      state.shDist = Number(document.getElementById("sh-dist").value);
-      state.shOp = Number(document.getElementById("sh-op").value);
-      state.noteScale = Number(document.getElementById("note-scale").value);
-      state.noteX = Number(document.getElementById("note-x").value);
-      state.noteY = Number(document.getElementById("note-y").value);
-      state.noteRot = Number(document.getElementById("note-rot").value);
-      state.bgBright = Number(document.getElementById("bg-bright").value);
-      state.bgSat = Number(document.getElementById("bg-sat").value);
-      state.bgBlur = Number(document.getElementById("bg-blur").value);
+      try {
+        state.glassBlur = getVal("glass-blur", 18);
+        state.glassSat = getVal("glass-sat", 150);
+        state.glassBright = getVal("glass-bright", 105);
+        state.glassTop = getVal("glass-top", 82);
+        state.glassMid = getVal("glass-mid", 60);
+        state.glassBot = getVal("glass-bot", 72);
+        state.shBlur = getVal("sh-blur", 16);
+        state.shDist = getVal("sh-dist", 14);
+        state.shOp = getVal("sh-op", 35);
+        state.noteScale = getVal("note-scale", 100);
+        state.noteX = getVal("note-x", 0);
+        state.noteY = getVal("note-y", 0);
+        state.noteRot = getVal("note-rot", 0);
+        state.bgBright = getVal("bg-bright", 100);
+        state.bgSat = getVal("bg-sat", 135);
+        state.bgBlur = getVal("bg-blur", 50);
 
-      // Label outputs
-      document.getElementById("val-glass-blur").innerText = state.glassBlur + "px";
-      document.getElementById("val-glass-sat").innerText = state.glassSat + "%";
-      document.getElementById("val-glass-bright").innerText = state.glassBright + "%";
-      document.getElementById("val-glass-top").innerText = state.glassTop + "%";
-      document.getElementById("val-glass-mid").innerText = state.glassMid + "%";
-      document.getElementById("val-glass-bot").innerText = state.glassBot + "%";
-      document.getElementById("val-sh-blur").innerText = state.shBlur + "px";
-      document.getElementById("val-sh-dist").innerText = state.shDist + "px";
-      document.getElementById("val-sh-op").innerText = state.shOp + "%";
-      document.getElementById("val-note-scale").innerText = state.noteScale + "%";
-      document.getElementById("val-note-x").innerText = state.noteX + "px";
-      document.getElementById("val-note-y").innerText = state.noteY + "px";
-      document.getElementById("val-note-rot").innerText = state.noteRot + "°";
-      document.getElementById("val-bg-bright").innerText = state.bgBright + "%";
-      document.getElementById("val-bg-sat").innerText = state.bgSat + "%";
-      document.getElementById("val-bg-blur").innerText = state.bgBlur + "px";
+        setText("val-glass-blur", state.glassBlur + "px");
+        setText("val-glass-sat", state.glassSat + "%");
+        setText("val-glass-bright", state.glassBright + "%");
+        setText("val-glass-top", state.glassTop + "%");
+        setText("val-glass-mid", state.glassMid + "%");
+        setText("val-glass-bot", state.glassBot + "%");
+        setText("val-sh-blur", state.shBlur + "px");
+        setText("val-sh-dist", state.shDist + "px");
+        setText("val-sh-op", state.shOp + "%");
+        setText("val-note-scale", state.noteScale + "%");
+        setText("val-note-x", state.noteX + "px");
+        setText("val-note-y", state.noteY + "px");
+        setText("val-note-rot", state.noteRot + "°");
+        setText("val-bg-bright", state.bgBright + "%");
+        setText("val-bg-sat", state.bgSat + "%");
+        setText("val-bg-blur", state.bgBlur + "px");
 
-      // CSS Variables binding
-      const root = document.documentElement;
-      root.style.setProperty("--glass-blur", state.glassBlur + "px");
-      root.style.setProperty("--glass-sat", state.glassSat + "%");
-      root.style.setProperty("--glass-bright", state.glassBright + "%");
-      root.style.setProperty("--glass-top-op", (state.glassTop / 100));
-      root.style.setProperty("--glass-mid-op", (state.glassMid / 100));
-      root.style.setProperty("--glass-bot-op", (state.glassBot / 100));
-      root.style.setProperty("--sh-blur", state.shBlur + "px");
-      root.style.setProperty("--sh-dist", state.shDist + "px");
-      root.style.setProperty("--sh-op", (state.shOp / 100));
-      root.style.setProperty("--note-scale", (state.noteScale / 100));
-      root.style.setProperty("--note-x", state.noteX + "px");
-      root.style.setProperty("--note-y", state.noteY + "px");
-      root.style.setProperty("--note-rot", state.noteRot + "deg");
-      root.style.setProperty("--bg-bright", state.bgBright + "%");
-      root.style.setProperty("--bg-sat", state.bgSat + "%");
-      root.style.setProperty("--bg-blur", state.bgBlur + "px");
+        const root = document.documentElement;
+        root.style.setProperty("--glass-blur", state.glassBlur + "px");
+        root.style.setProperty("--glass-sat", state.glassSat + "%");
+        root.style.setProperty("--glass-bright", state.glassBright + "%");
+        root.style.setProperty("--glass-top-op", (state.glassTop / 100));
+        root.style.setProperty("--glass-mid-op", (state.glassMid / 100));
+        root.style.setProperty("--glass-bot-op", (state.glassBot / 100));
+        root.style.setProperty("--sh-blur", state.shBlur + "px");
+        root.style.setProperty("--sh-dist", state.shDist + "px");
+        root.style.setProperty("--sh-op", (state.shOp / 100));
+        root.style.setProperty("--note-scale", (state.noteScale / 100));
+        root.style.setProperty("--note-x", state.noteX + "px");
+        root.style.setProperty("--note-y", state.noteY + "px");
+        root.style.setProperty("--note-rot", state.noteRot + "deg");
+        root.style.setProperty("--bg-bright", state.bgBright + "%");
+        root.style.setProperty("--bg-sat", state.bgSat + "%");
+        root.style.setProperty("--bg-blur", state.bgBlur + "px");
 
-      updateDockThumbs();
+        updateDockThumbs();
+      } catch (e) {
+        console.error("updateControls error:", e);
+      }
     }
 
     function setColor(name, hex) {
       state.colors[name] = hex;
       document.documentElement.style.setProperty("--c-" + name, hex);
-      document.getElementById("btn-" + name).style.background = hex;
+      const btn = document.getElementById("btn-" + name);
+      if (btn) btn.style.background = hex;
       updateDockThumbs();
     }
 
-    function switchTab(tab) {
+    function switchTab(tab, ev) {
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-      event.target.classList.add("active");
+      if (ev && ev.target) ev.target.classList.add("active");
       document.getElementById("tab-glass").style.display = tab === "glass" ? "block" : "none";
       document.getElementById("tab-aurora").style.display = tab === "aurora" ? "block" : "none";
       document.getElementById("tab-presets").style.display = tab === "presets" ? "block" : "none";
     }
 
-    function setEnv(type) {
+    function setEnv(type, ev) {
       document.querySelectorAll(".env-btn").forEach(b => b.classList.remove("active"));
-      event.target.classList.add("active");
+      if (ev && ev.target) ev.target.classList.add("active");
       const stage = document.getElementById("stage");
       if (type === "dark") stage.style.background = "radial-gradient(circle at center, #181d29 0%, #0d0f15 100%)";
       if (type === "light") stage.style.background = "#f0f2f5";
@@ -873,52 +882,57 @@
     }
 
     function applyPreset(name) {
+      const setInput = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val;
+      };
       if (name === "visionos") {
-        document.getElementById("glass-blur").value = 18;
-        document.getElementById("glass-sat").value = 145;
-        document.getElementById("glass-bright").value = 105;
-        document.getElementById("glass-top").value = 84;
-        document.getElementById("glass-mid").value = 65;
-        document.getElementById("glass-bot").value = 75;
-        document.getElementById("bg-bright").value = 100;
-        document.getElementById("bg-sat").value = 130;
-        document.getElementById("bg-blur").value = 50;
+        setInput("glass-blur", 18);
+        setInput("glass-sat", 145);
+        setInput("glass-bright", 105);
+        setInput("glass-top", 84);
+        setInput("glass-mid", 65);
+        setInput("glass-bot", 75);
+        setInput("bg-bright", 100);
+        setInput("bg-sat", 130);
+        setInput("bg-blur", 50);
       } else if (name === "crystal") {
-        document.getElementById("glass-blur").value = 10;
-        document.getElementById("glass-sat").value = 180;
-        document.getElementById("glass-bright").value = 115;
-        document.getElementById("glass-top").value = 55;
-        document.getElementById("glass-mid").value = 35;
-        document.getElementById("glass-bot").value = 45;
-        document.getElementById("bg-bright").value = 105;
-        document.getElementById("bg-sat").value = 140;
-        document.getElementById("bg-blur").value = 45;
+        setInput("glass-blur", 10);
+        setInput("glass-sat", 180);
+        setInput("glass-bright", 115);
+        setInput("glass-top", 55);
+        setInput("glass-mid", 35);
+        setInput("glass-bot", 45);
+        setInput("bg-bright", 105);
+        setInput("bg-sat", 140);
+        setInput("bg-blur", 45);
       } else if (name === "velvet") {
-        document.getElementById("glass-blur").value = 24;
-        document.getElementById("glass-sat").value = 135;
-        document.getElementById("glass-bright").value = 100;
-        document.getElementById("glass-top").value = 88;
-        document.getElementById("glass-mid").value = 72;
-        document.getElementById("glass-bot").value = 80;
-        document.getElementById("bg-bright").value = 92;
-        document.getElementById("bg-sat").value = 120;
-        document.getElementById("bg-blur").value = 65;
+        setInput("glass-blur", 24);
+        setInput("glass-sat", 135);
+        setInput("glass-bright", 100);
+        setInput("glass-top", 88);
+        setInput("glass-mid", 72);
+        setInput("glass-bot", 80);
+        setInput("bg-bright", 92);
+        setInput("bg-sat", 120);
+        setInput("bg-blur", 65);
       } else if (name === "vibrant") {
-        document.getElementById("glass-blur").value = 16;
-        document.getElementById("glass-sat").value = 160;
-        document.getElementById("glass-bright").value = 110;
-        document.getElementById("glass-top").value = 78;
-        document.getElementById("glass-mid").value = 52;
-        document.getElementById("glass-bot").value = 68;
-        document.getElementById("bg-bright").value = 112;
-        document.getElementById("bg-sat").value = 165;
-        document.getElementById("bg-blur").value = 48;
+        setInput("glass-blur", 16);
+        setInput("glass-sat", 160);
+        setInput("glass-bright", 110);
+        setInput("glass-top", 78);
+        setInput("glass-mid", 52);
+        setInput("glass-bot", 68);
+        setInput("bg-bright", 112);
+        setInput("bg-sat", 165);
+        setInput("bg-blur", 48);
       }
       updateControls();
     }
 
     function updateDockThumbs() {
       const box = document.getElementById("icon-box");
+      if (!box) return;
       const clone = box.cloneNode(true);
       clone.style.width = "100%";
       clone.style.height = "100%";
@@ -926,35 +940,32 @@
       
       ['dock-80', 'dock-54', 'dock-36'].forEach(id => {
         const el = document.getElementById(id);
-        el.innerHTML = "";
-        el.appendChild(clone.cloneNode(true));
+        if (el) {
+          el.innerHTML = "";
+          el.appendChild(clone.cloneNode(true));
+        }
       });
     }
 
-    // High-precision 1024×1024 Canvas Exporter
     async function exportPNG() {
       const canvas = document.getElementById("export-canvas");
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, 1024, 1024);
 
-      // 1. Draw macOS App Icon Squircle Clip
+      // Squircle
       ctx.save();
-      const r = 225;
       ctx.beginPath();
       ctx.roundRect(96, 96, 832, 832, 185);
       ctx.clip();
 
-      // 2. Render Background MyGO Aurora at 1024x1024
+      // Background
       const bgCanvas = document.createElement("canvas");
       bgCanvas.width = 1024;
       bgCanvas.height = 1024;
       const bgCtx = bgCanvas.getContext("2d");
-      
-      // Base indigo tone
       bgCtx.fillStyle = "#5A628A";
       bgCtx.fillRect(0, 0, 1024, 1024);
 
-      // Blobs
       const drawBlob = (color, cx, cy, radius, opacity) => {
         const g = bgCtx.createRadialGradient(cx, cy, 0, cx, cy, radius);
         g.addColorStop(0, color);
@@ -972,34 +983,28 @@
       drawBlob(state.colors.raana, 270, 740, 350, 0.95);
       drawBlob(state.colors.taki, 740, 740, 370, 0.95);
 
-      // Apply blur & draw onto main canvas
       ctx.filter = `blur(${state.bgBlur * 1.5}px) saturate(${state.bgSat}%) brightness(${state.bgBright}%)`;
       ctx.drawImage(bgCanvas, 0, 0);
       ctx.filter = "none";
 
-      // Squircle gloss
       const gloss = ctx.createLinearGradient(0, 96, 0, 500);
       gloss.addColorStop(0, "rgba(255, 255, 255, 0.18)");
       gloss.addColorStop(1, "transparent");
       ctx.fillStyle = gloss;
       ctx.fillRect(96, 96, 832, 420);
 
-      // Squircle rim
       ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
       ctx.lineWidth = 3;
       ctx.stroke();
 
-      // 3. Render Liquid Glass Note
-      // Note Path 2D
+      // Note
       const notePath = new Path2D("m10.888 2.518-4.756.959H6.13a.66.66 0 0 0-.296.133.5.5 0 0 0-.16.31c-.004.027-.01.08-.01.16v5.952c0 .14-.012.275-.106.39-.095.115-.21.15-.347.177l-.31.063c-.393.08-.65.133-.881.223a1.4 1.4 0 0 0-.519.333 1.25 1.25 0 0 0-.332.995c.031.297.166.582.395.792.156.142.35.25.578.296.236.047.49.031.858-.043.196-.04.38-.102.555-.205a1.4 1.4 0 0 0 .438-.405 1.5 1.5 0 0 0 .233-.55c.042-.202.052-.386.052-.588V6.347c0-.276.08-.35.302-.404.024-.005 3.954-.797 4.138-.833.257-.049.378.025.378.294v3.524c0 .14-.001.28-.096.396-.094.115-.211.15-.348.178l-.31.062c-.393.08-.649.133-.88.223a1.4 1.4 0 0 0-.52.334 1.26 1.26 0 0 0-.34.994c.03.297.174.582.404.792a1.2 1.2 0 0 0 .577.294c.237.048.49.03.858-.044.197-.04.381-.098.556-.202a1.4 1.4 0 0 0 .438-.405q.173-.252.233-.549a2.7 2.7 0 0 0 .044-.589V2.865c0-.273-.143-.443-.4-.42-.04.003-.383.064-.424.073");
 
       ctx.save();
-      // Drop Shadow
       ctx.shadowColor = `rgba(10, 16, 32, ${state.shOp / 100})`;
       ctx.shadowBlur = state.shBlur * 1.5;
       ctx.shadowOffsetY = state.shDist * 1.5;
 
-      // Transform to exact center with user offsets
       const s = 52 * (state.noteScale / 100);
       const pxX = state.noteX * 2.7;
       const pxY = state.noteY * 2.7;
@@ -1008,7 +1013,6 @@
       ctx.scale(s, s);
       ctx.translate(-8 + 0.57, -8 + 0.12);
 
-      // Glass Body: Fill
       const glassGrad = ctx.createLinearGradient(0, 2, 0, 14);
       glassGrad.addColorStop(0, `rgba(255, 255, 255, ${state.glassTop / 100})`);
       glassGrad.addColorStop(0.5, `rgba(255, 255, 255, ${state.glassMid / 100})`);
@@ -1016,7 +1020,6 @@
       ctx.fillStyle = glassGrad;
       ctx.fill(notePath, "evenodd");
 
-      // Laser Chamfer Bevel Stroke
       ctx.shadowColor = "transparent";
       const bevelGrad = ctx.createLinearGradient(0, 2, 16, 16);
       bevelGrad.addColorStop(0, "rgba(255, 255, 255, 1.0)");
@@ -1031,7 +1034,6 @@
       ctx.restore();
       ctx.restore();
 
-      // 4. Download file
       const link = document.createElement("a");
       link.download = "mygou-icon-1024.png";
       link.href = canvas.toDataURL("image/png");
@@ -1043,7 +1045,6 @@
       alert("参数配置已成功复制到剪贴板！");
     }
 
-    // Init
     window.addEventListener("DOMContentLoaded", () => {
       updateControls();
     });
