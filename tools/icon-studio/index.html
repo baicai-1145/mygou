@@ -7,7 +7,7 @@
   <style>
     :root {
       --bg: #0d0f15;
-      --card-bg: rgba(22, 26, 38, 0.85);
+      --card-bg: rgba(22, 26, 38, 0.88);
       --card-border: rgba(255, 255, 255, 0.1);
       --accent: #58a6ff;
       --text: #f0f3f6;
@@ -86,17 +86,10 @@
       box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), inset 0 -1px 2px rgba(0, 0, 0, 0.3);
     }
 
-    /* Background seamless Apple fluid mesh (NO separate balls/circles) */
+    /* Background seamless Apple fluid mesh (NO separate balls) */
     .aurora-canvas {
       position: absolute;
       inset: -20px;
-      background: 
-        radial-gradient(circle at 18% 20%, var(--c-tomori, #5BB0DC) 0%, transparent 65%),
-        radial-gradient(circle at 82% 18%, var(--c-anon, #FF7C92) 0%, transparent 65%),
-        radial-gradient(ellipse at 50% 50%, var(--c-soyo, #F8C666) 0%, transparent 55%),
-        radial-gradient(circle at 18% 82%, var(--c-raana, #60D465) 0%, transparent 65%),
-        radial-gradient(circle at 82% 82%, var(--c-taki, #6964A8) 0%, transparent 65%),
-        linear-gradient(var(--bg-angle, 135deg), var(--c-tomori, #5BB0DC) 0%, var(--c-anon, #FF7C92) 32%, var(--c-soyo, #F8C666) 52%, var(--c-raana, #60D465) 75%, var(--c-taki, #6964A8) 100%);
       filter: blur(var(--bg-blur, 35px)) saturate(var(--bg-sat, 135%)) brightness(var(--bg-bright, 100%));
       -webkit-filter: blur(var(--bg-blur, 35px)) saturate(var(--bg-sat, 135%)) brightness(var(--bg-bright, 100%));
     }
@@ -115,7 +108,7 @@
       pointer-events: none;
     }
 
-    /* Real macOS WebKit Metal Liquid Glass Note */
+    /* Real Apple Liquid Glass Note with Optical Refraction & Meniscus Lens */
     .glass-note-wrapper {
       position: absolute;
       top: 50%;
@@ -133,18 +126,34 @@
     .glass-note-body {
       width: 100%;
       height: 100%;
+      position: relative;
+      overflow: hidden;
       /* 100% mathematically centered Base64 SVG Note Mask (dx=0.57, dy=0.12) */
       -webkit-mask: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41NywgMC4xMikiPjxwYXRoIGZpbGw9ImJsYWNrIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Im0xMC44ODggMi41MTgtNC43NTYuOTU5SDYuMTNhLjY2LjY2IDAgMCAwLS4yOTYuMTMzLjUuNSAwIDAgMC0uMTYuMzFjLS4wMDQuMDI3LS4wMS4wOC0uMDEuMTZ2NS45NTJjMCAuMTQtLjAxMi4yNzUtLjEwNi4zOS0uMDk1LjExNS0uMjEuMTUtLjM0Ny4xNzdsLS4zMS4wNjNjLS4zOTMuMDgtLjY1LjEzMy0uODgxLjIyM2ExLjQgMS40IDAgMCAwLS41MTkuMzMzIDEuMjUgMS4yNSAwIDAgMC0uMzMyLjk5NWMuMDMxLjI5Ny4xNjYuNTgyLjM5NS43OTIuMTU2LjE0Mi4zNS4yNS41NzguMjk2LjIzNi4wNDcuNDkuMDMxLjg1OC0uMDQzLjE5Ni0uMDQuMzgtLjEwMi41NTUtLjIwNWExLjQgMS40IDAgMCAwIC40MzgtLjQwNSAxLjUgMS41IDAgMCAwIC4yMzMtLjU1Yy4wNDItLjIwMi4wNTItLjM4Ni4wNTItLjU4OFY2LjM0N2MwLS4yNzYuMDgtLjM1LjMwMi0uNDA0LjAyNC0uMDA1IDMuOTU0LS43OTcgNC4xMzgtLjgzMy4yNTctLjA0OS4zNzguMDI1LjM3OC4yOTR2My41MjRjMCAuMTQtLjAwMS4yOC0uMDk2LjM5Ni0uMDk0LjExNS0uMjExLjE1LS4zNDguMTc4bC0uMzEuMDYyYy0uMzkzLjA4LS42NDkuMTMzLS44OC4yMjNhMS40IDEuNCAwIDAgMC0uNTIuMzM0IDEuMjYgMS4yNiAwIDAgMC0uMzQuOTk0Yy4wMy4yOTcuMTc0LjU4Mi40MDQuNzkyYTEuMiAxLjIgMCAwIDAgLjU3Ny4yOTRjLjIzNy4wNDguNDkuMDMuODU4LS4wNDQuMTk3LS4wNC4zODEtLjA5OC41NTYtLjIwMmExLjQgMS40IDAgMCAwIC40MzgtLjQwNXEuMTczLS4yNTIuMjMzLS41NDlhMi43IDIuNyAwIDAgMCAuMDQ0LS41ODlWMi44NjVjMC0uMjczLS4xNDMtLjQ0My0uNC0uNDItLjA0LjAwMy0uMzgzLjA2NC0uNDI0LjA3MyIvPjwvZz48L3N2Zz4=') no-repeat center / contain;
       mask: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41NywgMC4xMikiPjxwYXRoIGZpbGw9ImJsYWNrIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Im0xMC44ODggMi41MTgtNC43NTYuOTU5SDYuMTNhLjY2LjY2IDAgMCAwLS4yOTYuMTMzLjUuNSAwIDAgMC0uMTYuMzFjLS4wMDQuMDI3LS4wMS4wOC0uMDEuMTZ2NS45NTJjMCAuMTQtLjAxMi4yNzUtLjEwNi4zOS0uMDk1LjExNS0uMjEuMTUtLjM0Ny4xNzdsLS4zMS4wNjNjLS4zOTMuMDgtLjY1LjEzMy0uODgxLjIyM2ExLjQgMS40IDAgMCAwLS41MTkuMzMzIDEuMjUgMS4yNSAwIDAgMC0uMzMyLjk5NWMuMDMxLjI5Ny4xNjYuNTgyLjM5NS43OTIuMTU2LjE0Mi4zNS4yNS41NzguMjk2LjIzNi4wNDcuNDkuMDMxLjg1OC0uMDQzLjE5Ni0uMDQuMzgtLjEwMi41NTUtLjIwNWExLjQgMS40IDAgMCAwIC40MzgtLjQwNSAxLjUgMS41IDAgMCAwIC4yMzMtLjU1Yy4wNDItLjIwMi4wNTItLjM4Ni4wNTItLjU4OFY2LjM0N2MwLS4yNzYuMDgtLjM1LjMwMi0uNDA0LjAyNC0uMDA1IDMuOTU0LS43OTcgNC4xMzgtLjgzMy4yNTctLjA0OS4zNzguMDI1LjM3OC4yOTR2My41MjRjMCAuMTQtLjAwMS4yOC0uMDk2LjM5Ni0uMDk0LjExNS0uMjExLjE1LS4zNDguMTc4bC0uMzEuMDYyYy0uMzkzLjA4LS42NDkuMTMzLS44OC4yMjNhMS40IDEuNCAwIDAgMC0uNTIuMzM0IDEuMjYgMS4yNiAwIDAgMC0uMzQuOTk0Yy4wMy4yOTcuMTc0LjU4Mi40MDQuNzkyYTEuMiAxLjIgMCAwIDAgLjU3Ny4yOTRjLjIzNy4wNDguNDkuMDMuODU4LS4wNDQuMTk3LS4wNC4zODEtLjA5OC41NTYtLjIwMmExLjQgMS40IDAgMCAwIC40MzgtLjQwNXEuMTczLS4yNTIuMjMzLS41NDlhMi43IDIuNyAwIDAgMCAuMDQ0LS41ODlWMi44NjVjMC0uMjczLS4xNDMtLjQ0My0uNC0uNDItLjA0LjAwMy0uMzgzLjA2NC0uNDI0LjA3MyIvPjwvZz48L3N2Zz4=') no-repeat center / contain;
-      
-      /* GENUINE NATIVE MACOS HARDWARE-ACCELERATED LIQUID GLASS */
+    }
+
+    /* Refracted background inside the glass meniscus (Real optical lens distortion) */
+    .glass-refracted-layer {
+      position: absolute;
+      inset: -40px;
+      transform-origin: center center;
+      transform: scale(var(--glass-refract, 1.25)) rotate(var(--glass-refr-rot, -3deg));
+      filter: blur(var(--glass-blur, 10px)) saturate(var(--glass-sat, 180%)) brightness(var(--glass-bright, 110%));
+      -webkit-filter: blur(var(--glass-blur, 10px)) saturate(var(--glass-sat, 180%)) brightness(var(--glass-bright, 110%));
+    }
+
+    /* Translucent frosted glass crystal glaze sheen */
+    .glass-surface-glaze {
+      position: absolute;
+      inset: 0;
       background: linear-gradient(135deg, 
-        rgba(255, 255, 255, var(--glass-top-op, 0.82)) 0%, 
-        rgba(255, 255, 255, var(--glass-mid-op, 0.60)) 50%,
-        rgba(235, 243, 255, var(--glass-bot-op, 0.72)) 100%
+        rgba(255, 255, 255, var(--glass-top-op, 0.45)) 0%, 
+        rgba(255, 255, 255, var(--glass-mid-op, 0.18)) 50%,
+        rgba(235, 243, 255, var(--glass-bot-op, 0.35)) 100%
       );
-      backdrop-filter: blur(var(--glass-blur, 18px)) saturate(var(--glass-sat, 150%)) brightness(var(--glass-bright, 105%));
-      -webkit-backdrop-filter: blur(var(--glass-blur, 18px)) saturate(var(--glass-sat, 150%)) brightness(var(--glass-bright, 105%));
+      backdrop-filter: blur(calc(var(--glass-blur, 10px) * 0.5));
+      -webkit-backdrop-filter: blur(calc(var(--glass-blur, 10px) * 0.5));
     }
 
     /* Razor-sharp Specular Glass Bevel Overlay */
@@ -429,16 +438,21 @@
     <!-- The 1024 Squircle Icon Stage -->
     <div class="icon-container" id="icon-box">
       <div class="squircle-frame">
-        <!-- Background MyGO seamless fluid aura (Zero discrete balls) -->
-        <div class="aurora-canvas" id="aurora"></div>
+        <!-- Background MyGO seamless fluid aura -->
+        <div class="aurora-canvas" id="aurora-bg"></div>
 
         <!-- Apple Glass Gloss Sheen -->
         <div class="squircle-gloss"></div>
         <div class="squircle-border"></div>
 
-        <!-- Real WebKit Liquid Glass Note -->
+        <!-- Real Apple Liquid Glass Note with Optical Refraction -->
         <div class="glass-note-wrapper" id="glass-note">
-          <div class="glass-note-body"></div>
+          <div class="glass-note-body">
+            <!-- Meniscus Refracted Aurora Layer inside the note -->
+            <div class="glass-refracted-layer" id="aurora-refract"></div>
+            <!-- Translucent Crystal Glaze Sheen -->
+            <div class="glass-surface-glaze"></div>
+          </div>
           
           <!-- Razor-sharp micro-chamfer laser highlight overlay -->
           <div class="glass-note-bevel">
@@ -486,7 +500,7 @@
   <div class="control-panel">
     <div class="panel-header">
       <h1>MyGO!!!!! 图标工坊</h1>
-      <p>macOS 原生 CoreAnimation / Metal 液态玻璃实时调谐器</p>
+      <p>Apple 空间液态透镜光学实时调谐器</p>
     </div>
 
     <div class="tabs">
@@ -498,56 +512,64 @@
     <div class="panel-body">
       <!-- TAB 1: 液态玻璃调参 -->
       <div id="tab-glass">
-        <div class="section-title">原生磨砂光学特性 (Backdrop-Filter)</div>
+        <div class="section-title">真实光学透镜折射特性 (Optical Meniscus Refraction)</div>
         
         <div class="control-group">
           <div class="control-label">
-            <span>磨砂模糊半径 (Blur)</span>
-            <span class="control-val" id="val-glass-blur">18px</span>
+            <span>透镜折射倍率 (Refraction Zoom - 弯曲形变)</span>
+            <span class="control-val" id="val-glass-refract">1.25x</span>
           </div>
-          <input type="range" id="glass-blur" min="0" max="50" value="18" oninput="updateControls()">
+          <input type="range" id="glass-refract" min="100" max="160" value="125" oninput="updateControls()">
         </div>
 
         <div class="control-group">
           <div class="control-label">
-            <span>穿透色彩饱和度 (Saturate)</span>
-            <span class="control-val" id="val-glass-sat">150%</span>
+            <span>磨砂雾化模糊 (Frost Blur - 0 为纯澈水滴，高为雾面晶体)</span>
+            <span class="control-val" id="val-glass-blur">10px</span>
           </div>
-          <input type="range" id="glass-sat" min="100" max="300" value="150" oninput="updateControls()">
+          <input type="range" id="glass-blur" min="0" max="40" value="10" oninput="updateControls()">
         </div>
 
         <div class="control-group">
           <div class="control-label">
-            <span>穿透增亮 (Brightness)</span>
-            <span class="control-val" id="val-glass-bright">105%</span>
+            <span>晶体折射饱和度 (Internal Saturation)</span>
+            <span class="control-val" id="val-glass-sat">180%</span>
           </div>
-          <input type="range" id="glass-bright" min="80" max="150" value="105" oninput="updateControls()">
-        </div>
-
-        <div class="section-title">玻璃本体透光度 (Glass Surface Opacity)</div>
-
-        <div class="control-group">
-          <div class="control-label">
-            <span>顶部光照不透明度</span>
-            <span class="control-val" id="val-glass-top">82%</span>
-          </div>
-          <input type="range" id="glass-top" min="10" max="100" value="82" oninput="updateControls()">
+          <input type="range" id="glass-sat" min="100" max="300" value="180" oninput="updateControls()">
         </div>
 
         <div class="control-group">
           <div class="control-label">
-            <span>主体中部不透明度 (透光核心)</span>
-            <span class="control-val" id="val-glass-mid">60%</span>
+            <span>内部聚光增亮 (Internal Brightness)</span>
+            <span class="control-val" id="val-glass-bright">110%</span>
           </div>
-          <input type="range" id="glass-mid" min="10" max="95" value="60" oninput="updateControls()">
+          <input type="range" id="glass-bright" min="80" max="150" value="110" oninput="updateControls()">
+        </div>
+
+        <div class="section-title">表面乳白反光层 (Surface Crystal Glaze)</div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>顶部高光不透明度 (Top Sheen)</span>
+            <span class="control-val" id="val-glass-top">45%</span>
+          </div>
+          <input type="range" id="glass-top" min="5" max="95" value="45" oninput="updateControls()">
         </div>
 
         <div class="control-group">
           <div class="control-label">
-            <span>底部受光不透明度</span>
-            <span class="control-val" id="val-glass-bot">72%</span>
+            <span>主体透光不透明度 (Mid Body - 越低越通透)</span>
+            <span class="control-val" id="val-glass-mid">18%</span>
           </div>
-          <input type="range" id="glass-bot" min="10" max="100" value="72" oninput="updateControls()">
+          <input type="range" id="glass-mid" min="0" max="90" value="18" oninput="updateControls()">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <span>底部受光不透明度 (Bottom Sheen)</span>
+            <span class="control-val" id="val-glass-bot">35%</span>
+          </div>
+          <input type="range" id="glass-bot" min="5" max="95" value="35" oninput="updateControls()">
         </div>
 
         <div class="section-title">3D 悬浮投影 (Apple Elevation)</div>
@@ -555,17 +577,17 @@
         <div class="control-group">
           <div class="control-label">
             <span>投影散布半径 (Shadow Blur)</span>
-            <span class="control-val" id="val-sh-blur">16px</span>
+            <span class="control-val" id="val-sh-blur">18px</span>
           </div>
-          <input type="range" id="sh-blur" min="4" max="40" value="16" oninput="updateControls()">
+          <input type="range" id="sh-blur" min="4" max="40" value="18" oninput="updateControls()">
         </div>
 
         <div class="control-group">
           <div class="control-label">
             <span>悬浮落差距离 (Distance)</span>
-            <span class="control-val" id="val-sh-dist">14px</span>
+            <span class="control-val" id="val-sh-dist">16px</span>
           </div>
-          <input type="range" id="sh-dist" min="2" max="30" value="14" oninput="updateControls()">
+          <input type="range" id="sh-dist" min="2" max="30" value="16" oninput="updateControls()">
         </div>
 
         <div class="control-group">
@@ -576,7 +598,7 @@
           <input type="range" id="sh-op" min="10" max="70" value="35" oninput="updateControls()">
         </div>
 
-        <div class="section-title">音符形变与位置校准 (Geometry & Placement)</div>
+        <div class="section-title">音符几何与校准 (Geometry & Placement)</div>
 
         <div class="control-group">
           <div class="control-label">
@@ -691,14 +713,14 @@
       <div id="tab-presets" style="display: none;">
         <div class="section-title">快速切换风格</div>
         <div class="preset-grid">
-          <button class="preset-btn" onclick="applyPreset('visionos')">
-            <strong>Apple VisionOS 标杆</strong><br>
-            <span style="font-size: 11px; color: var(--text-muted);">柔和透光，质感极高</span>
+          <button class="preset-btn" onclick="applyPreset('crystal')">
+            <strong>纯澈水滴液态玻璃 ⭐</strong><br>
+            <span style="font-size: 11px; color: var(--text-muted);">高折射微透，如晶莹露珠</span>
           </button>
 
-          <button class="preset-btn" onclick="applyPreset('crystal')">
-            <strong>纯澈晶透水凝</strong><br>
-            <span style="font-size: 11px; color: var(--text-muted);">超高折射，轻盈灵动</span>
+          <button class="preset-btn" onclick="applyPreset('visionos')">
+            <strong>Apple VisionOS 标杆</strong><br>
+            <span style="font-size: 11px; color: var(--text-muted);">空间亚克力，柔和高级</span>
           </button>
 
           <button class="preset-btn" onclick="applyPreset('velvet')">
@@ -733,7 +755,6 @@
   <canvas id="export-canvas" width="1024" height="1024"></canvas>
 
   <script>
-    // Safe DOM getters
     const getVal = (id, def = 0) => {
       const el = document.getElementById(id);
       return el ? Number(el.value) : def;
@@ -744,14 +765,15 @@
     };
 
     const state = {
-      glassBlur: 18,
-      glassSat: 150,
-      glassBright: 105,
-      glassTop: 82,
-      glassMid: 60,
-      glassBot: 72,
-      shBlur: 16,
-      shDist: 14,
+      glassRefract: 125,
+      glassBlur: 10,
+      glassSat: 180,
+      glassBright: 110,
+      glassTop: 45,
+      glassMid: 18,
+      glassBot: 35,
+      shBlur: 18,
+      shDist: 16,
       shOp: 35,
       noteScale: 100,
       noteX: 0,
@@ -770,16 +792,28 @@
       }
     };
 
+    function buildMeshCSS() {
+      return `
+        radial-gradient(circle at 18% 20%, ${state.colors.tomori} 0%, transparent 65%),
+        radial-gradient(circle at 82% 18%, ${state.colors.anon} 0%, transparent 65%),
+        radial-gradient(ellipse at 50% 50%, ${state.colors.soyo} 0%, transparent 55%),
+        radial-gradient(circle at 18% 82%, ${state.colors.raana} 0%, transparent 65%),
+        radial-gradient(circle at 82% 82%, ${state.colors.taki} 0%, transparent 65%),
+        linear-gradient(${state.bgAngle}deg, ${state.colors.tomori} 0%, ${state.colors.anon} 32%, ${state.colors.soyo} 52%, ${state.colors.raana} 75%, ${state.colors.taki} 100%)
+      `;
+    }
+
     function updateControls() {
       try {
-        state.glassBlur = getVal("glass-blur", 18);
-        state.glassSat = getVal("glass-sat", 150);
-        state.glassBright = getVal("glass-bright", 105);
-        state.glassTop = getVal("glass-top", 82);
-        state.glassMid = getVal("glass-mid", 60);
-        state.glassBot = getVal("glass-bot", 72);
-        state.shBlur = getVal("sh-blur", 16);
-        state.shDist = getVal("sh-dist", 14);
+        state.glassRefract = getVal("glass-refract", 125);
+        state.glassBlur = getVal("glass-blur", 10);
+        state.glassSat = getVal("glass-sat", 180);
+        state.glassBright = getVal("glass-bright", 110);
+        state.glassTop = getVal("glass-top", 45);
+        state.glassMid = getVal("glass-mid", 18);
+        state.glassBot = getVal("glass-bot", 35);
+        state.shBlur = getVal("sh-blur", 18);
+        state.shDist = getVal("sh-dist", 16);
         state.shOp = getVal("sh-op", 35);
         state.noteScale = getVal("note-scale", 100);
         state.noteX = getVal("note-x", 0);
@@ -790,6 +824,7 @@
         state.bgBlur = getVal("bg-blur", 35);
         state.bgAngle = getVal("bg-angle", 135);
 
+        setText("val-glass-refract", (state.glassRefract / 100).toFixed(2) + "x");
         setText("val-glass-blur", state.glassBlur + "px");
         setText("val-glass-sat", state.glassSat + "%");
         setText("val-glass-bright", state.glassBright + "%");
@@ -809,6 +844,7 @@
         setText("val-bg-angle", state.bgAngle + "°");
 
         const root = document.documentElement;
+        root.style.setProperty("--glass-refract", (state.glassRefract / 100));
         root.style.setProperty("--glass-blur", state.glassBlur + "px");
         root.style.setProperty("--glass-sat", state.glassSat + "%");
         root.style.setProperty("--glass-bright", state.glassBright + "%");
@@ -827,6 +863,20 @@
         root.style.setProperty("--bg-blur", state.bgBlur + "px");
         root.style.setProperty("--bg-angle", state.bgAngle + "deg");
 
+        // Sync background mesh directly to DOM
+        const meshCSS = buildMeshCSS();
+        const bgEl = document.getElementById("aurora-bg");
+        if (bgEl) bgEl.style.background = meshCSS;
+        
+        // Sync refracted layer inside note directly to DOM (forces GPU compositor refresh)
+        const refEl = document.getElementById("aurora-refract");
+        if (refEl) {
+          refEl.style.background = meshCSS;
+          refEl.style.transform = `scale(${state.glassRefract / 100}) rotate(-4deg)`;
+          refEl.style.filter = `blur(${state.glassBlur}px) saturate(${state.glassSat}%) brightness(${state.glassBright}%)`;
+          refEl.style.webkitFilter = `blur(${state.glassBlur}px) saturate(${state.glassSat}%) brightness(${state.glassBright}%)`;
+        }
+
         updateDockThumbs();
       } catch (e) {
         console.error("updateControls error:", e);
@@ -838,7 +888,7 @@
       document.documentElement.style.setProperty("--c-" + name, hex);
       const btn = document.getElementById("btn-" + name);
       if (btn) btn.style.background = hex;
-      updateDockThumbs();
+      updateControls();
     }
 
     function switchTab(tab, ev) {
@@ -864,46 +914,50 @@
         const el = document.getElementById(id);
         if (el) el.value = val;
       };
-      if (name === "visionos") {
-        setInput("glass-blur", 18);
-        setInput("glass-sat", 145);
-        setInput("glass-bright", 105);
-        setInput("glass-top", 84);
-        setInput("glass-mid", 65);
-        setInput("glass-bot", 75);
-        setInput("bg-bright", 100);
-        setInput("bg-sat", 130);
-        setInput("bg-blur", 50);
-      } else if (name === "crystal") {
-        setInput("glass-blur", 10);
-        setInput("glass-sat", 180);
+      if (name === "crystal") {
+        setInput("glass-refract", 135);
+        setInput("glass-blur", 2);
+        setInput("glass-sat", 220);
         setInput("glass-bright", 115);
-        setInput("glass-top", 55);
-        setInput("glass-mid", 35);
-        setInput("glass-bot", 45);
-        setInput("bg-bright", 105);
-        setInput("bg-sat", 140);
-        setInput("bg-blur", 45);
-      } else if (name === "velvet") {
-        setInput("glass-blur", 24);
-        setInput("glass-sat", 135);
-        setInput("glass-bright", 100);
-        setInput("glass-top", 88);
-        setInput("glass-mid", 72);
-        setInput("glass-bot", 80);
-        setInput("bg-bright", 92);
-        setInput("bg-sat", 120);
-        setInput("bg-blur", 65);
-      } else if (name === "vibrant") {
+        setInput("glass-top", 40);
+        setInput("glass-mid", 12);
+        setInput("glass-bot", 25);
+        setInput("bg-bright", 100);
+        setInput("bg-sat", 135);
+        setInput("bg-blur", 35);
+      } else if (name === "visionos") {
+        setInput("glass-refract", 120);
         setInput("glass-blur", 16);
         setInput("glass-sat", 160);
-        setInput("glass-bright", 110);
-        setInput("glass-top", 78);
-        setInput("glass-mid", 52);
-        setInput("glass-bot", 68);
+        setInput("glass-bright", 108);
+        setInput("glass-top", 55);
+        setInput("glass-mid", 25);
+        setInput("glass-bot", 42);
+        setInput("bg-bright", 100);
+        setInput("bg-sat", 130);
+        setInput("bg-blur", 35);
+      } else if (name === "velvet") {
+        setInput("glass-refract", 115);
+        setInput("glass-blur", 25);
+        setInput("glass-sat", 140);
+        setInput("glass-bright", 100);
+        setInput("glass-top", 60);
+        setInput("glass-mid", 35);
+        setInput("glass-bot", 48);
+        setInput("bg-bright", 92);
+        setInput("bg-sat", 120);
+        setInput("bg-blur", 45);
+      } else if (name === "vibrant") {
+        setInput("glass-refract", 130);
+        setInput("glass-blur", 8);
+        setInput("glass-sat", 240);
+        setInput("glass-bright", 120);
+        setInput("glass-top", 45);
+        setInput("glass-mid", 15);
+        setInput("glass-bot", 30);
         setInput("bg-bright", 112);
         setInput("bg-sat", 165);
-        setInput("bg-blur", 48);
+        setInput("bg-blur", 30);
       }
       updateControls();
     }
@@ -936,43 +990,44 @@
       ctx.roundRect(96, 96, 832, 832, 185);
       ctx.clip();
 
-      // Seamless Apple Mesh Background (Zero separate balls)
+      // Render seamless mesh background function
+      const renderMeshOnCanvas = (targetCtx, w, h, angle) => {
+        const rad = (angle * Math.PI) / 180;
+        const x1 = w/2 - Math.cos(rad) * w/2;
+        const y1 = h/2 - Math.sin(rad) * h/2;
+        const x2 = w/2 + Math.cos(rad) * w/2;
+        const y2 = h/2 + Math.sin(rad) * h/2;
+        const baseGrad = targetCtx.createLinearGradient(x1, y1, x2, y2);
+        baseGrad.addColorStop(0, state.colors.tomori);
+        baseGrad.addColorStop(0.32, state.colors.anon);
+        baseGrad.addColorStop(0.52, state.colors.soyo);
+        baseGrad.addColorStop(0.75, state.colors.raana);
+        baseGrad.addColorStop(1, state.colors.taki);
+        targetCtx.fillStyle = baseGrad;
+        targetCtx.fillRect(0, 0, w, h);
+
+        const drawSoft = (c, cx, cy, r, op = 0.95) => {
+          const g = targetCtx.createRadialGradient(cx, cy, 0, cx, cy, r);
+          g.addColorStop(0, c);
+          g.addColorStop(1, "transparent");
+          targetCtx.globalAlpha = op;
+          targetCtx.fillStyle = g;
+          targetCtx.fillRect(0, 0, w, h);
+        };
+        drawSoft(state.colors.tomori, w * 0.20, h * 0.22, w * 0.55, 0.95);
+        drawSoft(state.colors.anon, w * 0.80, h * 0.20, w * 0.55, 0.95);
+        drawSoft(state.colors.soyo, w * 0.50, h * 0.50, w * 0.45, 0.88);
+        drawSoft(state.colors.raana, w * 0.20, h * 0.80, w * 0.55, 0.95);
+        drawSoft(state.colors.taki, w * 0.80, h * 0.80, w * 0.55, 0.95);
+        targetCtx.globalAlpha = 1.0;
+      };
+
+      // 1. Draw Background
       const bgCanvas = document.createElement("canvas");
       bgCanvas.width = 1024;
       bgCanvas.height = 1024;
       const bgCtx = bgCanvas.getContext("2d");
-
-      // 1. Base linear silk flow with angle
-      const rad = (state.bgAngle * Math.PI) / 180;
-      const x1 = 512 - Math.cos(rad) * 512;
-      const y1 = 512 - Math.sin(rad) * 512;
-      const x2 = 512 + Math.cos(rad) * 512;
-      const y2 = 512 + Math.sin(rad) * 512;
-      const baseGrad = bgCtx.createLinearGradient(x1, y1, x2, y2);
-      baseGrad.addColorStop(0, state.colors.tomori);
-      baseGrad.addColorStop(0.32, state.colors.anon);
-      baseGrad.addColorStop(0.52, state.colors.soyo);
-      baseGrad.addColorStop(0.75, state.colors.raana);
-      baseGrad.addColorStop(1, state.colors.taki);
-      bgCtx.fillStyle = baseGrad;
-      bgCtx.fillRect(0, 0, 1024, 1024);
-
-      // 2. Soft diffused radial harmonics (organic blend, no hard disk edges)
-      const drawSoftRadial = (color, cx, cy, radius, op = 0.95) => {
-        const g = bgCtx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-        g.addColorStop(0, color);
-        g.addColorStop(1, "transparent");
-        bgCtx.globalAlpha = op;
-        bgCtx.fillStyle = g;
-        bgCtx.fillRect(0, 0, 1024, 1024);
-      };
-
-      drawSoftRadial(state.colors.tomori, 200, 220, 560, 0.95);
-      drawSoftRadial(state.colors.anon, 820, 200, 560, 0.95);
-      drawSoftRadial(state.colors.soyo, 512, 512, 460, 0.88);
-      drawSoftRadial(state.colors.raana, 200, 820, 560, 0.95);
-      drawSoftRadial(state.colors.taki, 820, 820, 560, 0.95);
-      bgCtx.globalAlpha = 1.0;
+      renderMeshOnCanvas(bgCtx, 1024, 1024, state.bgAngle);
 
       ctx.filter = `blur(${state.bgBlur * 1.5}px) saturate(${state.bgSat}%) brightness(${state.bgBright}%)`;
       ctx.drawImage(bgCanvas, 0, 0);
@@ -988,10 +1043,11 @@
       ctx.lineWidth = 3;
       ctx.stroke();
 
-      // Note
+      // 2. Note Setup
       const notePath = new Path2D("m10.888 2.518-4.756.959H6.13a.66.66 0 0 0-.296.133.5.5 0 0 0-.16.31c-.004.027-.01.08-.01.16v5.952c0 .14-.012.275-.106.39-.095.115-.21.15-.347.177l-.31.063c-.393.08-.65.133-.881.223a1.4 1.4 0 0 0-.519.333 1.25 1.25 0 0 0-.332.995c.031.297.166.582.395.792.156.142.35.25.578.296.236.047.49.031.858-.043.196-.04.38-.102.555-.205a1.4 1.4 0 0 0 .438-.405 1.5 1.5 0 0 0 .233-.55c.042-.202.052-.386.052-.588V6.347c0-.276.08-.35.302-.404.024-.005 3.954-.797 4.138-.833.257-.049.378.025.378.294v3.524c0 .14-.001.28-.096.396-.094.115-.211.15-.348.178l-.31.062c-.393.08-.649.133-.88.223a1.4 1.4 0 0 0-.52.334 1.26 1.26 0 0 0-.34.994c.03.297.174.582.404.792a1.2 1.2 0 0 0 .577.294c.237.048.49.03.858-.044.197-.04.381-.098.556-.202a1.4 1.4 0 0 0 .438-.405q.173-.252.233-.549a2.7 2.7 0 0 0 .044-.589V2.865c0-.273-.143-.443-.4-.42-.04.003-.383.064-.424.073");
 
       ctx.save();
+      // Drop Shadow
       ctx.shadowColor = `rgba(10, 16, 32, ${state.shOp / 100})`;
       ctx.shadowBlur = state.shBlur * 1.5;
       ctx.shadowOffsetY = state.shDist * 1.5;
@@ -1004,6 +1060,37 @@
       ctx.scale(s, s);
       ctx.translate(-8 + 0.57, -8 + 0.12);
 
+      // Draw shadow base
+      ctx.fillStyle = "rgba(0, 0, 0, 0.01)";
+      ctx.fill(notePath, "evenodd");
+      ctx.restore();
+
+      // Clip note path to render internal refracted optical mesh
+      ctx.save();
+      ctx.translate(512 + pxX, 512 + pxY);
+      if (state.noteRot) ctx.rotate((state.noteRot * Math.PI) / 180);
+      ctx.scale(s, s);
+      ctx.translate(-8 + 0.57, -8 + 0.12);
+      ctx.clip(notePath, "evenodd");
+
+      // Render refracted background inside note
+      ctx.save();
+      ctx.translate(8 - 0.57, 8 - 0.12);
+      ctx.scale(1/s, 1/s);
+      ctx.translate(-512 - pxX, -512 - pxY);
+      
+      // Optical magnification transform
+      ctx.translate(512, 512);
+      ctx.scale(state.glassRefract / 100, state.glassRefract / 100);
+      ctx.rotate((-4 * Math.PI) / 180);
+      ctx.translate(-512, -512);
+
+      ctx.filter = `blur(${state.glassBlur * 1.5}px) saturate(${state.glassSat}%) brightness(${state.glassBright}%)`;
+      ctx.drawImage(bgCanvas, 0, 0);
+      ctx.filter = "none";
+      ctx.restore();
+
+      // Surface crystal glaze sheen
       const glassGrad = ctx.createLinearGradient(0, 2, 0, 14);
       glassGrad.addColorStop(0, `rgba(255, 255, 255, ${state.glassTop / 100})`);
       glassGrad.addColorStop(0.5, `rgba(255, 255, 255, ${state.glassMid / 100})`);
@@ -1011,7 +1098,15 @@
       ctx.fillStyle = glassGrad;
       ctx.fill(notePath, "evenodd");
 
-      ctx.shadowColor = "transparent";
+      ctx.restore();
+
+      // Laser Chamfer Bevel Stroke
+      ctx.save();
+      ctx.translate(512 + pxX, 512 + pxY);
+      if (state.noteRot) ctx.rotate((state.noteRot * Math.PI) / 180);
+      ctx.scale(s, s);
+      ctx.translate(-8 + 0.57, -8 + 0.12);
+
       const bevelGrad = ctx.createLinearGradient(0, 2, 16, 16);
       bevelGrad.addColorStop(0, "rgba(255, 255, 255, 1.0)");
       bevelGrad.addColorStop(0.4, "rgba(255, 255, 255, 0.85)");
