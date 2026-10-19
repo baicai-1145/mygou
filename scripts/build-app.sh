@@ -13,7 +13,11 @@ mkdir -p build/mygou.app/Contents/MacOS build/mygou.app/Contents/Resources
 cp build/mygou build/mygou.app/Contents/MacOS/mygou
 cp packaging/Info.plist build/mygou.app/Contents/Info.plist
 
-go run ./cmd/mkicon -out build/icon-1024.png
+if [[ -f assets/icon-1024.png ]]; then
+  cp assets/icon-1024.png build/icon-1024.png
+else
+  go run ./cmd/mkicon -out build/icon-1024.png
+fi
 rm -rf build/icon.iconset
 mkdir -p build/icon.iconset
 for s in 16 32 128 256 512; do
