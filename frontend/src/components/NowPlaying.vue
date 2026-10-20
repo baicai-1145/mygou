@@ -333,10 +333,12 @@ const modeTitle = computed(() => {
 
 <template>
   <div class="lyrics-page" :class="{ 'is-fullscreen': isFullscreen }">
-    <!-- Artwork-Driven Ambient Stage (Zero Canvas Leak, Authentic Album Colors) -->
+    <!-- Artwork-Driven Apple Music Liquid Stage (Ultra-Low Memory, Pure GPU Compositor) -->
     <div class="artwork-stage">
-      <div class="artwork-backdrop" :style="bgStyle"></div>
-      <div class="artwork-drift" :style="bgStyle"></div>
+      <div class="artwork-layer artwork-base" :style="bgStyle"></div>
+      <div class="artwork-layer artwork-surge-1" :style="bgStyle"></div>
+      <div class="artwork-layer artwork-surge-2" :style="bgStyle"></div>
+      <div class="artwork-layer artwork-swell" :style="bgStyle"></div>
     </div>
     <div class="veil"></div>
 
@@ -545,56 +547,111 @@ const modeTitle = computed(() => {
   -webkit-app-region: drag;
 }
 
-/* Artwork-Driven Ambient Stage (Apple Music Style, Zero Canvas Leak) */
+/* Artwork-Driven Apple Music Liquid Stage (Zero Canvas Leak, Pure Hardware Compositing) */
 .artwork-stage {
   position: absolute;
-  inset: -60px;
+  inset: -100px;
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
-  background: #09090d;
+  background: #08080c;
 }
 
 :root[data-hidden="true"] .artwork-stage * {
   animation-play-state: paused !important;
 }
 
-.artwork-backdrop {
+.artwork-layer {
   position: absolute;
-  inset: -40px;
   background-size: cover;
   background-position: center;
-  filter: blur(48px) saturate(240%) brightness(66%);
-  -webkit-filter: blur(48px) saturate(240%) brightness(66%);
-  transform: scale(1.12);
-  animation: artwork-breathe 28s ease-in-out infinite alternate;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
-.artwork-drift {
-  position: absolute;
-  inset: -60px;
-  background-size: cover;
-  background-position: center;
-  filter: blur(56px) saturate(260%) brightness(62%);
-  -webkit-filter: blur(56px) saturate(260%) brightness(62%);
-  opacity: 0.75;
+/* Layer 1: Wide Diffused Ambient Bed (20s slow breathing base) */
+.artwork-base {
+  inset: -20px;
+  filter: blur(52px) saturate(220%) brightness(65%);
+  -webkit-filter: blur(52px) saturate(220%) brightness(65%);
+  animation: liquid-base 20s ease-in-out infinite alternate;
+}
+
+/* Layer 2: Primary Liquid Current (12s orbital counter-clockwise surge) */
+.artwork-surge-1 {
+  width: 90%;
+  height: 90%;
+  top: 5%;
+  left: 0%;
+  border-radius: 48% 52% 43% 57% / 55% 45% 55% 45%;
+  filter: blur(48px) saturate(260%) brightness(72%);
+  -webkit-filter: blur(48px) saturate(260%) brightness(72%);
   mix-blend-mode: screen;
-  transform: scale(1.22);
-  animation: artwork-drift 36s ease-in-out infinite alternate;
-  will-change: transform;
+  opacity: 0.82;
+  animation: liquid-surge-1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes artwork-breathe {
-  0% { transform: scale(1.1) rotate(0deg); }
-  50% { transform: scale(1.18) translate(2%, 1%) rotate(2deg); }
-  100% { transform: scale(1.12) translate(-2%, 2%) rotate(-1deg); }
+/* Layer 3: Counter Liquid Current (16s clockwise cross-cutting surge) */
+.artwork-surge-2 {
+  width: 85%;
+  height: 85%;
+  top: 10%;
+  right: -5%;
+  border-radius: 58% 42% 51% 49% / 46% 58% 42% 54%;
+  filter: blur(54px) saturate(270%) brightness(68%);
+  -webkit-filter: blur(54px) saturate(270%) brightness(68%);
+  mix-blend-mode: screen;
+  opacity: 0.75;
+  animation: liquid-surge-2 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes artwork-drift {
-  0% { transform: scale(1.25) translate(-3%, -2%) rotate(0deg); }
-  50% { transform: scale(1.16) translate(3%, 3%) rotate(-3deg); }
-  100% { transform: scale(1.22) translate(-1%, 4%) rotate(2deg); }
+/* Layer 4: Deep Oceanic Swell (9.5s organic pulsating wave) */
+.artwork-swell {
+  width: 80%;
+  height: 80%;
+  top: 15%;
+  left: 10%;
+  border-radius: 45% 55% 58% 42% / 52% 48% 52% 48%;
+  filter: blur(44px) saturate(280%) brightness(75%);
+  -webkit-filter: blur(44px) saturate(280%) brightness(75%);
+  mix-blend-mode: screen;
+  opacity: 0.65;
+  animation: liquid-swell 9.5s ease-in-out infinite alternate;
+}
+
+@keyframes liquid-base {
+  0% { transform: scale(1.08) translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: scale(1.16) translate3d(2%, 2%, 0) rotate(2deg); }
+  100% { transform: scale(1.10) translate3d(-2%, 1%, 0) rotate(-1deg); }
+}
+
+@keyframes liquid-surge-1 {
+  0% { transform: translate3d(-4%, -3%, 0) scale(1.12) rotate(0deg); }
+  33% { transform: translate3d(5%, 4%, 0) scale(1.26) rotate(120deg); }
+  66% { transform: translate3d(-2%, 8%, 0) scale(1.18) rotate(240deg); }
+  100% { transform: translate3d(-4%, -3%, 0) scale(1.12) rotate(360deg); }
+}
+
+@keyframes liquid-surge-2 {
+  0% { transform: translate3d(4%, 3%, 0) scale(1.22) rotate(360deg); }
+  33% { transform: translate3d(-6%, 2%, 0) scale(1.14) rotate(240deg); }
+  66% { transform: translate3d(3%, -6%, 0) scale(1.28) rotate(120deg); }
+  100% { transform: translate3d(4%, 3%, 0) scale(1.22) rotate(0deg); }
+}
+
+@keyframes liquid-swell {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05) rotate(-2deg);
+    opacity: 0.50;
+  }
+  50% {
+    transform: translate3d(3%, -4%, 0) scale(1.28) rotate(4deg);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(-3%, 3%, 0) scale(1.12) rotate(-1deg);
+    opacity: 0.55;
+  }
 }
 
 .veil {
