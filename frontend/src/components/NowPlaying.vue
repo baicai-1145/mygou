@@ -550,7 +550,7 @@ const modeTitle = computed(() => {
 /* Artwork-Driven Apple Music Liquid Stage (Zero Canvas Leak, Pure Hardware Compositing) */
 .artwork-stage {
   position: absolute;
-  inset: -100px;
+  inset: -80px;
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
@@ -564,103 +564,115 @@ const modeTitle = computed(() => {
 .artwork-layer {
   position: absolute;
   background-size: cover;
-  background-position: center;
   will-change: transform;
   transform: translate3d(0, 0, 0);
 }
 
-/* Layer 1: Wide Diffused Ambient Bed (60s glacial breathing base) */
+/* Layer 1: Wide Diffused Ambient Bed (28s calm breathing base) */
 .artwork-base {
-  inset: -30px;
-  filter: blur(52px) saturate(220%) brightness(66%);
-  -webkit-filter: blur(52px) saturate(220%) brightness(66%);
-  animation: liquid-base 60s ease-in-out infinite alternate;
+  inset: -20px;
+  background-position: center;
+  filter: blur(50px) saturate(220%) brightness(65%);
+  -webkit-filter: blur(50px) saturate(220%) brightness(65%);
+  transform: scale(1.15);
+  animation: liquid-base 28s ease-in-out infinite alternate;
 }
 
-/* Layer 2: Primary Fluid Drift (48s slow tide sway) */
+/* Layer 2: Top-Left Liquid Blob traveling diagonally towards center (18s) */
 .artwork-surge-1 {
-  width: 110%;
-  height: 110%;
-  top: -5%;
-  left: -5%;
-  border-radius: 52% 48% 46% 54% / 54% 46% 52% 48%;
-  filter: blur(56px) saturate(250%) brightness(70%);
-  -webkit-filter: blur(56px) saturate(250%) brightness(70%);
+  width: 75vw;
+  height: 75vw;
+  min-width: 650px;
+  min-height: 650px;
+  top: -20vw;
+  left: -20vw;
+  background-position: top left;
+  border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%;
+  filter: blur(55px) saturate(260%) brightness(75%);
+  -webkit-filter: blur(55px) saturate(260%) brightness(75%);
   mix-blend-mode: screen;
-  opacity: 0.65;
-  animation: liquid-surge-1 48s ease-in-out infinite alternate;
+  opacity: 0.72;
+  animation: liquid-surge-1 18s ease-in-out infinite alternate;
 }
 
-/* Layer 3: Secondary Counter Drift (56s slow tide sway) */
+/* Layer 3: Bottom-Right Liquid Blob traveling towards center (22s) */
 .artwork-surge-2 {
-  width: 110%;
-  height: 110%;
-  top: -5%;
-  right: -5%;
-  border-radius: 46% 54% 52% 48% / 48% 52% 46% 54%;
-  filter: blur(60px) saturate(250%) brightness(68%);
-  -webkit-filter: blur(60px) saturate(250%) brightness(68%);
+  width: 80vw;
+  height: 80vw;
+  min-width: 700px;
+  min-height: 700px;
+  bottom: -22vw;
+  right: -22vw;
+  background-position: bottom right;
+  border-radius: 58% 42% 38% 62% / 55% 65% 35% 45%;
+  filter: blur(55px) saturate(270%) brightness(72%);
+  -webkit-filter: blur(55px) saturate(270%) brightness(72%);
   mix-blend-mode: screen;
-  opacity: 0.55;
-  animation: liquid-surge-2 56s ease-in-out infinite alternate;
+  opacity: 0.68;
+  animation: liquid-surge-2 22s ease-in-out infinite alternate;
 }
 
-/* Layer 4: Deep Oceanic Swell (40s gentle breathing pulse) */
+/* Layer 4: Deep Oceanic Swell (14s organic pulsating wave) */
 .artwork-swell {
-  width: 100%;
-  height: 100%;
-  top: 0%;
-  left: 0%;
+  width: 65vw;
+  height: 65vw;
+  min-width: 550px;
+  min-height: 550px;
+  top: 50%;
+  left: 50%;
+  margin-top: -32.5vw;
+  margin-left: -32.5vw;
+  background-position: center;
   border-radius: 50%;
-  filter: blur(48px) saturate(260%) brightness(72%);
-  -webkit-filter: blur(48px) saturate(260%) brightness(72%);
+  filter: blur(48px) saturate(280%) brightness(80%);
+  -webkit-filter: blur(48px) saturate(280%) brightness(80%);
   mix-blend-mode: screen;
-  opacity: 0.50;
-  animation: liquid-swell 40s ease-in-out infinite alternate;
+  opacity: 0.60;
+  animation: liquid-swell 14s ease-in-out infinite alternate;
 }
 
 @keyframes liquid-base {
-  0% { transform: scale(1.08) translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: scale(1.14) translate3d(1.5%, 1%, 0) rotate(1.5deg); }
-  100% { transform: scale(1.10) translate3d(-1.5%, 1.5%, 0) rotate(-1deg); }
+  0% { transform: scale(1.10) translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: scale(1.18) translate3d(2%, 2%, 0) rotate(1.5deg); }
+  100% { transform: scale(1.12) translate3d(-2%, 1%, 0) rotate(-1.5deg); }
 }
 
 @keyframes liquid-surge-1 {
   0% {
-    transform: translate3d(-2%, -2%, 0) scale(1.10) rotate(-2deg);
+    transform: translate3d(0, 0, 0) scale(1.0) rotate(0deg);
   }
   50% {
-    transform: translate3d(3%, 2%, 0) scale(1.18) rotate(3deg);
+    transform: translate3d(22vw, 14vh, 0) scale(1.22) rotate(10deg);
   }
   100% {
-    transform: translate3d(-1%, 3%, 0) scale(1.12) rotate(-1deg);
+    transform: translate3d(12vw, 20vh, 0) scale(0.95) rotate(-6deg);
   }
 }
 
 @keyframes liquid-surge-2 {
   0% {
-    transform: translate3d(2%, 2%, 0) scale(1.16) rotate(3deg);
+    transform: translate3d(0, 0, 0) scale(1.05) rotate(0deg);
   }
   50% {
-    transform: translate3d(-3%, -2%, 0) scale(1.10) rotate(-2deg);
+    transform: translate3d(-20vw, -15vh, 0) scale(0.92) rotate(-12deg);
   }
   100% {
-    transform: translate3d(1%, -3%, 0) scale(1.15) rotate(1.5deg);
+    transform: translate3d(-10vw, -24vh, 0) scale(1.20) rotate(8deg);
   }
 }
 
 @keyframes liquid-swell {
   0% {
-    transform: translate3d(0, 0, 0) scale(1.06) rotate(0deg);
-    opacity: 0.40;
+    transform: scale(0.88) rotate(-4deg);
+    opacity: 0.45;
   }
   50% {
-    transform: translate3d(1.5%, -2%, 0) scale(1.18) rotate(-1.5deg);
-    opacity: 0.65;
+    transform: scale(1.32) translate3d(4vw, -3vh, 0) rotate(6deg);
+    opacity: 0.85;
   }
   100% {
-    transform: translate3d(-1.5%, 1%, 0) scale(1.10) rotate(1deg);
-    opacity: 0.45;
+    transform: scale(1.05) translate3d(-3vw, 3vh, 0) rotate(-2deg);
+    opacity: 0.55;
   }
 }
 
